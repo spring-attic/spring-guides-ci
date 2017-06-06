@@ -5,7 +5,9 @@
 # in the same root directory. Then run this script to generate a
 # pipeline.yml.
 
-output=pipeline.yml
+output=pipeline.yml;
+mavens=();
+gradles=();
 
 function project() {
     echo $1 | sed -e 's,../,,' -e 's,/complete,,'
@@ -48,7 +50,7 @@ EOF
 
 for f in `find ../gs-* -name complete -type d | sort`; do
     if [ -e $f/pom.xml -o -e $f/build.gradle ]; then
-        project=$(project $f)
+        project=$(project $f);
         cat >> $output <<EOF
 - name: $project
   type: git
@@ -101,8 +103,17 @@ EOF
 for f in `find ../gs-* -name complete -type d | sort`; do
     if [ -e $f/pom.xml ]; then
         project=$(project $f)
-        cat >> $output <<EOF
-- name: $project-maven
+        mavens+=(${project});
+    fi
+    if [ -e $f/build.gradle ]; then
+        project=$(project $f)
+        gradles+=(${project});
+    fi
+done
+
+for project in "${mavens[@]}"; do
+  cat >> $output <<EOF
+- name: ${project}-maven
   plan:
   - aggregate:
     - get: ci
@@ -116,11 +127,10 @@ for f in `find ../gs-* -name complete -type d | sort`; do
       source: $project
 
 EOF
-    fi
-    if [ -e $f/build.gradle ]; then
-        project=$(project $f)
-        cat >> $output <<EOF
-- name: $project-gradle
+done
+for project in "${gradles[@]}"; do
+  cat >> $output <<EOF
+- name: ${project}-gradle
   plan:
   - aggregate:
     - get: ci
@@ -134,5 +144,37 @@ EOF
       source: $project
 
 EOF
-    fi
 done
+
+cat >> $output <<EOF
+groups:
+- name: all
+  jobs:
+  - maven-image
+  - gradle-image
+EOF
+for project in "${mavens[@]}"; do
+    echo >> $output "  - "${project}"-maven"
+done
+for project in "${gradles[@]}"; do
+    echo >> $output "  - "${project}"-gradle"
+done  
+cat >> $output <<EOF
+- name: images
+  jobs:
+  - maven-image
+  - gradle-image
+- name: maven
+  jobs:
+EOF
+for project in "${mavens[@]}"; do
+    echo >> $output "  - "${project}"-maven"
+done
+cat >> $output <<EOF
+- name: gradle
+  jobs:
+EOF
+for project in "${gradles[@]}"; do
+    echo >> $output "  - "${project}"-gradle"
+done
+

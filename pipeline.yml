@@ -280,19 +280,6 @@ jobs:
     input_mapping:
       source: gs-accessing-data-gemfire
 
-- name: gs-accessing-data-gemfire-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-accessing-data-gemfire
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
-    input_mapping:
-      source: gs-accessing-data-gemfire
-
 - name: gs-accessing-data-jpa-maven
   plan:
   - aggregate:
@@ -303,19 +290,6 @@ jobs:
       passed: [maven-image]
   - task: maven
     file: ci/maven/install.yml
-    input_mapping:
-      source: gs-accessing-data-jpa
-
-- name: gs-accessing-data-jpa-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-accessing-data-jpa
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
     input_mapping:
       source: gs-accessing-data-jpa
 
@@ -332,19 +306,6 @@ jobs:
     input_mapping:
       source: gs-accessing-data-mongodb
 
-- name: gs-accessing-data-mongodb-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-accessing-data-mongodb
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
-    input_mapping:
-      source: gs-accessing-data-mongodb
-
 - name: gs-accessing-data-neo4j-maven
   plan:
   - aggregate:
@@ -355,19 +316,6 @@ jobs:
       passed: [maven-image]
   - task: maven
     file: ci/maven/install.yml
-    input_mapping:
-      source: gs-accessing-data-neo4j
-
-- name: gs-accessing-data-neo4j-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-accessing-data-neo4j
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
     input_mapping:
       source: gs-accessing-data-neo4j
 
@@ -384,19 +332,6 @@ jobs:
     input_mapping:
       source: gs-accessing-data-rest
 
-- name: gs-accessing-data-rest-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-accessing-data-rest
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
-    input_mapping:
-      source: gs-accessing-data-rest
-
 - name: gs-accessing-facebook-maven
   plan:
   - aggregate:
@@ -407,19 +342,6 @@ jobs:
       passed: [maven-image]
   - task: maven
     file: ci/maven/install.yml
-    input_mapping:
-      source: gs-accessing-facebook
-
-- name: gs-accessing-facebook-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-accessing-facebook
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
     input_mapping:
       source: gs-accessing-facebook
 
@@ -436,19 +358,6 @@ jobs:
     input_mapping:
       source: gs-accessing-gemfire-data-rest
 
-- name: gs-accessing-gemfire-data-rest-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-accessing-gemfire-data-rest
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
-    input_mapping:
-      source: gs-accessing-gemfire-data-rest
-
 - name: gs-accessing-mongodb-data-rest-maven
   plan:
   - aggregate:
@@ -459,19 +368,6 @@ jobs:
       passed: [maven-image]
   - task: maven
     file: ci/maven/install.yml
-    input_mapping:
-      source: gs-accessing-mongodb-data-rest
-
-- name: gs-accessing-mongodb-data-rest-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-accessing-mongodb-data-rest
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
     input_mapping:
       source: gs-accessing-mongodb-data-rest
 
@@ -488,19 +384,6 @@ jobs:
     input_mapping:
       source: gs-accessing-neo4j-data-rest
 
-- name: gs-accessing-neo4j-data-rest-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-accessing-neo4j-data-rest
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
-    input_mapping:
-      source: gs-accessing-neo4j-data-rest
-
 - name: gs-accessing-twitter-maven
   plan:
   - aggregate:
@@ -511,19 +394,6 @@ jobs:
       passed: [maven-image]
   - task: maven
     file: ci/maven/install.yml
-    input_mapping:
-      source: gs-accessing-twitter
-
-- name: gs-accessing-twitter-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-accessing-twitter
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
     input_mapping:
       source: gs-accessing-twitter
 
@@ -540,19 +410,6 @@ jobs:
     input_mapping:
       source: gs-actuator-service
 
-- name: gs-actuator-service-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-actuator-service
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
-    input_mapping:
-      source: gs-actuator-service
-
 - name: gs-async-method-maven
   plan:
   - aggregate:
@@ -563,19 +420,6 @@ jobs:
       passed: [maven-image]
   - task: maven
     file: ci/maven/install.yml
-    input_mapping:
-      source: gs-async-method
-
-- name: gs-async-method-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-async-method
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
     input_mapping:
       source: gs-async-method
 
@@ -592,19 +436,6 @@ jobs:
     input_mapping:
       source: gs-authenticating-ldap
 
-- name: gs-authenticating-ldap-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-authenticating-ldap
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
-    input_mapping:
-      source: gs-authenticating-ldap
-
 - name: gs-batch-processing-maven
   plan:
   - aggregate:
@@ -615,19 +446,6 @@ jobs:
       passed: [maven-image]
   - task: maven
     file: ci/maven/install.yml
-    input_mapping:
-      source: gs-batch-processing
-
-- name: gs-batch-processing-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-batch-processing
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
     input_mapping:
       source: gs-batch-processing
 
@@ -644,19 +462,6 @@ jobs:
     input_mapping:
       source: gs-caching
 
-- name: gs-caching-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-caching
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
-    input_mapping:
-      source: gs-caching
-
 - name: gs-caching-gemfire-maven
   plan:
   - aggregate:
@@ -667,19 +472,6 @@ jobs:
       passed: [maven-image]
   - task: maven
     file: ci/maven/install.yml
-    input_mapping:
-      source: gs-caching-gemfire
-
-- name: gs-caching-gemfire-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-caching-gemfire
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
     input_mapping:
       source: gs-caching-gemfire
 
@@ -735,19 +527,6 @@ jobs:
     input_mapping:
       source: gs-consuming-rest
 
-- name: gs-consuming-rest-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-consuming-rest
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
-    input_mapping:
-      source: gs-consuming-rest
-
 - name: gs-consuming-web-service-maven
   plan:
   - aggregate:
@@ -758,19 +537,6 @@ jobs:
       passed: [maven-image]
   - task: maven
     file: ci/maven/install.yml
-    input_mapping:
-      source: gs-consuming-web-service
-
-- name: gs-consuming-web-service-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-consuming-web-service
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
     input_mapping:
       source: gs-consuming-web-service
 
@@ -787,19 +553,6 @@ jobs:
     input_mapping:
       source: gs-crud-with-vaadin
 
-- name: gs-crud-with-vaadin-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-crud-with-vaadin
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
-    input_mapping:
-      source: gs-crud-with-vaadin
-
 - name: gs-device-detection-maven
   plan:
   - aggregate:
@@ -813,32 +566,6 @@ jobs:
     input_mapping:
       source: gs-device-detection
 
-- name: gs-device-detection-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-device-detection
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
-    input_mapping:
-      source: gs-device-detection
-
-- name: gs-gradle-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-gradle
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
-    input_mapping:
-      source: gs-gradle
-
 - name: gs-handling-form-submission-maven
   plan:
   - aggregate:
@@ -849,19 +576,6 @@ jobs:
       passed: [maven-image]
   - task: maven
     file: ci/maven/install.yml
-    input_mapping:
-      source: gs-handling-form-submission
-
-- name: gs-handling-form-submission-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-handling-form-submission
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
     input_mapping:
       source: gs-handling-form-submission
 
@@ -878,19 +592,6 @@ jobs:
     input_mapping:
       source: gs-handling-site-preference
 
-- name: gs-handling-site-preference-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-handling-site-preference
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
-    input_mapping:
-      source: gs-handling-site-preference
-
 - name: gs-integration-maven
   plan:
   - aggregate:
@@ -904,19 +605,6 @@ jobs:
     input_mapping:
       source: gs-integration
 
-- name: gs-integration-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-integration
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
-    input_mapping:
-      source: gs-integration
-
 - name: gs-managing-transactions-maven
   plan:
   - aggregate:
@@ -927,19 +615,6 @@ jobs:
       passed: [maven-image]
   - task: maven
     file: ci/maven/install.yml
-    input_mapping:
-      source: gs-managing-transactions
-
-- name: gs-managing-transactions-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-managing-transactions
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
     input_mapping:
       source: gs-managing-transactions
 
@@ -969,19 +644,6 @@ jobs:
     input_mapping:
       source: gs-messaging-jms
 
-- name: gs-messaging-jms-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-messaging-jms
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
-    input_mapping:
-      source: gs-messaging-jms
-
 - name: gs-messaging-rabbitmq-maven
   plan:
   - aggregate:
@@ -992,19 +654,6 @@ jobs:
       passed: [maven-image]
   - task: maven
     file: ci/maven/install.yml
-    input_mapping:
-      source: gs-messaging-rabbitmq
-
-- name: gs-messaging-rabbitmq-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-messaging-rabbitmq
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
     input_mapping:
       source: gs-messaging-rabbitmq
 
@@ -1021,19 +670,6 @@ jobs:
     input_mapping:
       source: gs-messaging-redis
 
-- name: gs-messaging-redis-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-messaging-redis
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
-    input_mapping:
-      source: gs-messaging-redis
-
 - name: gs-messaging-stomp-websocket-maven
   plan:
   - aggregate:
@@ -1044,19 +680,6 @@ jobs:
       passed: [maven-image]
   - task: maven
     file: ci/maven/install.yml
-    input_mapping:
-      source: gs-messaging-stomp-websocket
-
-- name: gs-messaging-stomp-websocket-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-messaging-stomp-websocket
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
     input_mapping:
       source: gs-messaging-stomp-websocket
 
@@ -1086,19 +709,6 @@ jobs:
     input_mapping:
       source: gs-producing-web-service
 
-- name: gs-producing-web-service-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-producing-web-service
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
-    input_mapping:
-      source: gs-producing-web-service
-
 - name: gs-relational-data-access-maven
   plan:
   - aggregate:
@@ -1109,19 +719,6 @@ jobs:
       passed: [maven-image]
   - task: maven
     file: ci/maven/install.yml
-    input_mapping:
-      source: gs-relational-data-access
-
-- name: gs-relational-data-access-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-relational-data-access
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
     input_mapping:
       source: gs-relational-data-access
 
@@ -1138,19 +735,6 @@ jobs:
     input_mapping:
       source: gs-rest-hateoas
 
-- name: gs-rest-hateoas-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-rest-hateoas
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
-    input_mapping:
-      source: gs-rest-hateoas
-
 - name: gs-rest-service-maven
   plan:
   - aggregate:
@@ -1161,19 +745,6 @@ jobs:
       passed: [maven-image]
   - task: maven
     file: ci/maven/install.yml
-    input_mapping:
-      source: gs-rest-service
-
-- name: gs-rest-service-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-rest-service
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
     input_mapping:
       source: gs-rest-service
 
@@ -1190,19 +761,6 @@ jobs:
     input_mapping:
       source: gs-rest-service-cors
 
-- name: gs-rest-service-cors-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-rest-service-cors
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
-    input_mapping:
-      source: gs-rest-service-cors
-
 - name: gs-scheduling-tasks-maven
   plan:
   - aggregate:
@@ -1216,19 +774,6 @@ jobs:
     input_mapping:
       source: gs-scheduling-tasks
 
-- name: gs-scheduling-tasks-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-scheduling-tasks
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
-    input_mapping:
-      source: gs-scheduling-tasks
-
 - name: gs-securing-web-maven
   plan:
   - aggregate:
@@ -1239,19 +784,6 @@ jobs:
       passed: [maven-image]
   - task: maven
     file: ci/maven/install.yml
-    input_mapping:
-      source: gs-securing-web
-
-- name: gs-securing-web-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-securing-web
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
     input_mapping:
       source: gs-securing-web
 
@@ -1281,19 +813,6 @@ jobs:
     input_mapping:
       source: gs-serving-mobile-web-content
 
-- name: gs-serving-mobile-web-content-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-serving-mobile-web-content
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
-    input_mapping:
-      source: gs-serving-mobile-web-content
-
 - name: gs-serving-web-content-maven
   plan:
   - aggregate:
@@ -1304,19 +823,6 @@ jobs:
       passed: [maven-image]
   - task: maven
     file: ci/maven/install.yml
-    input_mapping:
-      source: gs-serving-web-content
-
-- name: gs-serving-web-content-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-serving-web-content
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
     input_mapping:
       source: gs-serving-web-content
 
@@ -1333,19 +839,6 @@ jobs:
     input_mapping:
       source: gs-spring-boot
 
-- name: gs-spring-boot-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-spring-boot
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
-    input_mapping:
-      source: gs-spring-boot
-
 - name: gs-spring-boot-docker-maven
   plan:
   - aggregate:
@@ -1356,19 +849,6 @@ jobs:
       passed: [maven-image]
   - task: maven
     file: ci/maven/install.yml
-    input_mapping:
-      source: gs-spring-boot-docker
-
-- name: gs-spring-boot-docker-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-spring-boot-docker
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
     input_mapping:
       source: gs-spring-boot-docker
 
@@ -1385,19 +865,6 @@ jobs:
     input_mapping:
       source: gs-testing-restdocs
 
-- name: gs-testing-restdocs-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-testing-restdocs
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
-    input_mapping:
-      source: gs-testing-restdocs
-
 - name: gs-testing-web-maven
   plan:
   - aggregate:
@@ -1408,19 +875,6 @@ jobs:
       passed: [maven-image]
   - task: maven
     file: ci/maven/install.yml
-    input_mapping:
-      source: gs-testing-web
-
-- name: gs-testing-web-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-testing-web
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
     input_mapping:
       source: gs-testing-web
 
@@ -1437,19 +891,6 @@ jobs:
     input_mapping:
       source: gs-uploading-files
 
-- name: gs-uploading-files-gradle
-  plan:
-  - aggregate:
-    - get: ci
-    - get: gs-uploading-files
-      trigger: true
-    - get: gradle-base-image
-      passed: [gradle-image]
-  - task: gradle
-    file: ci/gradle/build.yml
-    input_mapping:
-      source: gs-uploading-files
-
 - name: gs-validating-form-input-maven
   plan:
   - aggregate:
@@ -1462,6 +903,565 @@ jobs:
     file: ci/maven/install.yml
     input_mapping:
       source: gs-validating-form-input
+
+- name: gs-accessing-data-gemfire-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-accessing-data-gemfire
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-accessing-data-gemfire
+
+- name: gs-accessing-data-jpa-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-accessing-data-jpa
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-accessing-data-jpa
+
+- name: gs-accessing-data-mongodb-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-accessing-data-mongodb
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-accessing-data-mongodb
+
+- name: gs-accessing-data-neo4j-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-accessing-data-neo4j
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-accessing-data-neo4j
+
+- name: gs-accessing-data-rest-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-accessing-data-rest
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-accessing-data-rest
+
+- name: gs-accessing-facebook-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-accessing-facebook
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-accessing-facebook
+
+- name: gs-accessing-gemfire-data-rest-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-accessing-gemfire-data-rest
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-accessing-gemfire-data-rest
+
+- name: gs-accessing-mongodb-data-rest-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-accessing-mongodb-data-rest
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-accessing-mongodb-data-rest
+
+- name: gs-accessing-neo4j-data-rest-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-accessing-neo4j-data-rest
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-accessing-neo4j-data-rest
+
+- name: gs-accessing-twitter-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-accessing-twitter
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-accessing-twitter
+
+- name: gs-actuator-service-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-actuator-service
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-actuator-service
+
+- name: gs-async-method-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-async-method
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-async-method
+
+- name: gs-authenticating-ldap-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-authenticating-ldap
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-authenticating-ldap
+
+- name: gs-batch-processing-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-batch-processing
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-batch-processing
+
+- name: gs-caching-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-caching
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-caching
+
+- name: gs-caching-gemfire-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-caching-gemfire
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-caching-gemfire
+
+- name: gs-consuming-rest-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-consuming-rest
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-consuming-rest
+
+- name: gs-consuming-web-service-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-consuming-web-service
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-consuming-web-service
+
+- name: gs-crud-with-vaadin-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-crud-with-vaadin
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-crud-with-vaadin
+
+- name: gs-device-detection-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-device-detection
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-device-detection
+
+- name: gs-gradle-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-gradle
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-gradle
+
+- name: gs-handling-form-submission-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-handling-form-submission
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-handling-form-submission
+
+- name: gs-handling-site-preference-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-handling-site-preference
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-handling-site-preference
+
+- name: gs-integration-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-integration
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-integration
+
+- name: gs-managing-transactions-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-managing-transactions
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-managing-transactions
+
+- name: gs-messaging-jms-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-messaging-jms
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-messaging-jms
+
+- name: gs-messaging-rabbitmq-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-messaging-rabbitmq
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-messaging-rabbitmq
+
+- name: gs-messaging-redis-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-messaging-redis
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-messaging-redis
+
+- name: gs-messaging-stomp-websocket-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-messaging-stomp-websocket
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-messaging-stomp-websocket
+
+- name: gs-producing-web-service-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-producing-web-service
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-producing-web-service
+
+- name: gs-relational-data-access-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-relational-data-access
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-relational-data-access
+
+- name: gs-rest-hateoas-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-rest-hateoas
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-rest-hateoas
+
+- name: gs-rest-service-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-rest-service
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-rest-service
+
+- name: gs-rest-service-cors-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-rest-service-cors
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-rest-service-cors
+
+- name: gs-scheduling-tasks-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-scheduling-tasks
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-scheduling-tasks
+
+- name: gs-securing-web-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-securing-web
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-securing-web
+
+- name: gs-serving-mobile-web-content-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-serving-mobile-web-content
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-serving-mobile-web-content
+
+- name: gs-serving-web-content-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-serving-web-content
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-serving-web-content
+
+- name: gs-spring-boot-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-spring-boot
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-spring-boot
+
+- name: gs-spring-boot-docker-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-spring-boot-docker
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-spring-boot-docker
+
+- name: gs-testing-restdocs-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-testing-restdocs
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-testing-restdocs
+
+- name: gs-testing-web-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-testing-web
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-testing-web
+
+- name: gs-uploading-files-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-uploading-files
+      trigger: true
+    - get: gradle-base-image
+      passed: [gradle-image]
+  - task: gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-uploading-files
 
 - name: gs-validating-form-input-gradle
   plan:
@@ -1476,3 +1476,202 @@ jobs:
     input_mapping:
       source: gs-validating-form-input
 
+groups:
+- name: all
+  jobs:
+  - maven-image
+  - gradle-image
+  - gs-accessing-data-gemfire-maven
+  - gs-accessing-data-jpa-maven
+  - gs-accessing-data-mongodb-maven
+  - gs-accessing-data-neo4j-maven
+  - gs-accessing-data-rest-maven
+  - gs-accessing-facebook-maven
+  - gs-accessing-gemfire-data-rest-maven
+  - gs-accessing-mongodb-data-rest-maven
+  - gs-accessing-neo4j-data-rest-maven
+  - gs-accessing-twitter-maven
+  - gs-actuator-service-maven
+  - gs-async-method-maven
+  - gs-authenticating-ldap-maven
+  - gs-batch-processing-maven
+  - gs-caching-maven
+  - gs-caching-gemfire-maven
+  - gs-centralized-configuration-maven
+  - gs-circuit-breaker-maven
+  - gs-client-side-load-balancing-maven
+  - gs-consuming-rest-maven
+  - gs-consuming-web-service-maven
+  - gs-crud-with-vaadin-maven
+  - gs-device-detection-maven
+  - gs-handling-form-submission-maven
+  - gs-handling-site-preference-maven
+  - gs-integration-maven
+  - gs-managing-transactions-maven
+  - gs-maven-maven
+  - gs-messaging-jms-maven
+  - gs-messaging-rabbitmq-maven
+  - gs-messaging-redis-maven
+  - gs-messaging-stomp-websocket-maven
+  - gs-multi-module-maven
+  - gs-producing-web-service-maven
+  - gs-relational-data-access-maven
+  - gs-rest-hateoas-maven
+  - gs-rest-service-maven
+  - gs-rest-service-cors-maven
+  - gs-scheduling-tasks-maven
+  - gs-securing-web-maven
+  - gs-service-registration-and-discovery-maven
+  - gs-serving-mobile-web-content-maven
+  - gs-serving-web-content-maven
+  - gs-spring-boot-maven
+  - gs-spring-boot-docker-maven
+  - gs-testing-restdocs-maven
+  - gs-testing-web-maven
+  - gs-uploading-files-maven
+  - gs-validating-form-input-maven
+  - gs-accessing-data-gemfire-gradle
+  - gs-accessing-data-jpa-gradle
+  - gs-accessing-data-mongodb-gradle
+  - gs-accessing-data-neo4j-gradle
+  - gs-accessing-data-rest-gradle
+  - gs-accessing-facebook-gradle
+  - gs-accessing-gemfire-data-rest-gradle
+  - gs-accessing-mongodb-data-rest-gradle
+  - gs-accessing-neo4j-data-rest-gradle
+  - gs-accessing-twitter-gradle
+  - gs-actuator-service-gradle
+  - gs-async-method-gradle
+  - gs-authenticating-ldap-gradle
+  - gs-batch-processing-gradle
+  - gs-caching-gradle
+  - gs-caching-gemfire-gradle
+  - gs-consuming-rest-gradle
+  - gs-consuming-web-service-gradle
+  - gs-crud-with-vaadin-gradle
+  - gs-device-detection-gradle
+  - gs-gradle-gradle
+  - gs-handling-form-submission-gradle
+  - gs-handling-site-preference-gradle
+  - gs-integration-gradle
+  - gs-managing-transactions-gradle
+  - gs-messaging-jms-gradle
+  - gs-messaging-rabbitmq-gradle
+  - gs-messaging-redis-gradle
+  - gs-messaging-stomp-websocket-gradle
+  - gs-producing-web-service-gradle
+  - gs-relational-data-access-gradle
+  - gs-rest-hateoas-gradle
+  - gs-rest-service-gradle
+  - gs-rest-service-cors-gradle
+  - gs-scheduling-tasks-gradle
+  - gs-securing-web-gradle
+  - gs-serving-mobile-web-content-gradle
+  - gs-serving-web-content-gradle
+  - gs-spring-boot-gradle
+  - gs-spring-boot-docker-gradle
+  - gs-testing-restdocs-gradle
+  - gs-testing-web-gradle
+  - gs-uploading-files-gradle
+  - gs-validating-form-input-gradle
+- name: images
+  jobs:
+  - maven-image
+  - gradle-image
+- name: maven
+  jobs:
+  - gs-accessing-data-gemfire-maven
+  - gs-accessing-data-jpa-maven
+  - gs-accessing-data-mongodb-maven
+  - gs-accessing-data-neo4j-maven
+  - gs-accessing-data-rest-maven
+  - gs-accessing-facebook-maven
+  - gs-accessing-gemfire-data-rest-maven
+  - gs-accessing-mongodb-data-rest-maven
+  - gs-accessing-neo4j-data-rest-maven
+  - gs-accessing-twitter-maven
+  - gs-actuator-service-maven
+  - gs-async-method-maven
+  - gs-authenticating-ldap-maven
+  - gs-batch-processing-maven
+  - gs-caching-maven
+  - gs-caching-gemfire-maven
+  - gs-centralized-configuration-maven
+  - gs-circuit-breaker-maven
+  - gs-client-side-load-balancing-maven
+  - gs-consuming-rest-maven
+  - gs-consuming-web-service-maven
+  - gs-crud-with-vaadin-maven
+  - gs-device-detection-maven
+  - gs-handling-form-submission-maven
+  - gs-handling-site-preference-maven
+  - gs-integration-maven
+  - gs-managing-transactions-maven
+  - gs-maven-maven
+  - gs-messaging-jms-maven
+  - gs-messaging-rabbitmq-maven
+  - gs-messaging-redis-maven
+  - gs-messaging-stomp-websocket-maven
+  - gs-multi-module-maven
+  - gs-producing-web-service-maven
+  - gs-relational-data-access-maven
+  - gs-rest-hateoas-maven
+  - gs-rest-service-maven
+  - gs-rest-service-cors-maven
+  - gs-scheduling-tasks-maven
+  - gs-securing-web-maven
+  - gs-service-registration-and-discovery-maven
+  - gs-serving-mobile-web-content-maven
+  - gs-serving-web-content-maven
+  - gs-spring-boot-maven
+  - gs-spring-boot-docker-maven
+  - gs-testing-restdocs-maven
+  - gs-testing-web-maven
+  - gs-uploading-files-maven
+  - gs-validating-form-input-maven
+- name: gradle
+  jobs:
+  - gs-accessing-data-gemfire-gradle
+  - gs-accessing-data-jpa-gradle
+  - gs-accessing-data-mongodb-gradle
+  - gs-accessing-data-neo4j-gradle
+  - gs-accessing-data-rest-gradle
+  - gs-accessing-facebook-gradle
+  - gs-accessing-gemfire-data-rest-gradle
+  - gs-accessing-mongodb-data-rest-gradle
+  - gs-accessing-neo4j-data-rest-gradle
+  - gs-accessing-twitter-gradle
+  - gs-actuator-service-gradle
+  - gs-async-method-gradle
+  - gs-authenticating-ldap-gradle
+  - gs-batch-processing-gradle
+  - gs-caching-gradle
+  - gs-caching-gemfire-gradle
+  - gs-consuming-rest-gradle
+  - gs-consuming-web-service-gradle
+  - gs-crud-with-vaadin-gradle
+  - gs-device-detection-gradle
+  - gs-gradle-gradle
+  - gs-handling-form-submission-gradle
+  - gs-handling-site-preference-gradle
+  - gs-integration-gradle
+  - gs-managing-transactions-gradle
+  - gs-messaging-jms-gradle
+  - gs-messaging-rabbitmq-gradle
+  - gs-messaging-redis-gradle
+  - gs-messaging-stomp-websocket-gradle
+  - gs-producing-web-service-gradle
+  - gs-relational-data-access-gradle
+  - gs-rest-hateoas-gradle
+  - gs-rest-service-gradle
+  - gs-rest-service-cors-gradle
+  - gs-scheduling-tasks-gradle
+  - gs-securing-web-gradle
+  - gs-serving-mobile-web-content-gradle
+  - gs-serving-web-content-gradle
+  - gs-spring-boot-gradle
+  - gs-spring-boot-docker-gradle
+  - gs-testing-restdocs-gradle
+  - gs-testing-web-gradle
+  - gs-uploading-files-gradle
+  - gs-validating-form-input-gradle
