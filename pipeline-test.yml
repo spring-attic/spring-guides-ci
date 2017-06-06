@@ -1,0 +1,104 @@
+# This pipeline is primarily for testing the task definitions. The full pipeline
+# for getting started guides is generated.
+---
+jobs:
+- name: maven-image
+  public: true
+  serial: true
+  plan:
+  - aggregate:
+    - get: ci
+      trigger: true
+    - get: maven-image-source
+      trigger: true
+  - task: setup
+    file: ci/maven/setup.yml
+    input_mapping:
+      source: maven-image-source
+    params:
+      PUBLIC_KEY: {{public-key}}
+      PRIVATE_KEY: {{private-key}}
+  - put: maven-base-image
+    params:
+      build: build/maven
+- name: gradle-image
+  public: true
+  serial: true
+  plan:
+  - aggregate:
+    - get: ci
+      trigger: true
+    - get: gradle-image-source
+      trigger: true
+  - task: setup
+    file: ci/gradle/setup.yml
+    input_mapping:
+      source: gradle-image-source
+  - put: gradle-base-image
+    params:
+      build: build/gradle
+- name: maven
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-rest-service
+      trigger: true
+    - get: maven-base-image
+      trigger: true
+      passed: [maven-image]
+  - task: gs-rest-service-maven
+    file: ci/maven/install.yml
+    input_mapping:
+      source: gs-rest-service
+- name: gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-rest-service
+      trigger: true
+    - get: gradle-base-image
+      trigger: true
+      passed: [gradle-image]
+  - task: gs-rest-service-gradle
+    file: ci/gradle/build.yml
+    input_mapping:
+      source: gs-rest-service
+
+resources:
+- name: gs-rest-service
+  type: git
+  source:
+    uri: https://github.com/spring-guides/gs-rest-service.git
+
+- name: maven-image-source
+  type: git
+  source:
+    uri: https://github.com/spring-guides/gs-rest-service.git
+    paths: [complete/pom.xml]
+
+- name: gradle-image-source
+  type: git
+  source:
+    uri: https://github.com/spring-guides/gs-rest-service.git
+    paths: [complete/build.gradle]
+
+- name: ci
+  type: git
+  source:
+    uri: https://github.com/spring-guides/spring-guides-ci.git
+
+- name: maven-base-image
+  type: docker-image
+  source:
+    email: {{docker-hub-email}}
+    username: {{docker-hub-username}}
+    password: {{docker-hub-password}}
+    repository: springio/maven-base
+
+- name: gradle-base-image
+  type: docker-image
+  source:
+    email: {{docker-hub-email}}
+    username: {{docker-hub-username}}
+    password: {{docker-hub-password}}
+    repository: springio/gradle-base
