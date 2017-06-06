@@ -1,0 +1,7 @@
+---
+platform: linux
+inputs:
+  - name: source
+  - name: ci
+run:
+  path: ci/rabbit/install.sh

@@ -9,6 +9,6 @@ inputs:
   - name: ci
   - name: source
 outputs:
-  - name: build/gradle
+  - name: build/image
 run:
-  path: ci/gradle/setup.sh
+  path: ci/image/setup.sh
