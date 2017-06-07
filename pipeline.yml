@@ -327,6 +327,7 @@ jobs:
     - get: gs-accessing-data-gemfire
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -341,6 +342,7 @@ jobs:
     - get: gs-accessing-data-jpa
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -355,6 +357,7 @@ jobs:
     - get: gs-accessing-data-rest
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -369,6 +372,7 @@ jobs:
     - get: gs-accessing-facebook
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -383,6 +387,7 @@ jobs:
     - get: gs-accessing-gemfire-data-rest
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -397,6 +402,7 @@ jobs:
     - get: gs-accessing-twitter
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -411,6 +417,7 @@ jobs:
     - get: gs-actuator-service
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -425,6 +432,7 @@ jobs:
     - get: gs-async-method
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -439,6 +447,7 @@ jobs:
     - get: gs-authenticating-ldap
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -453,6 +462,7 @@ jobs:
     - get: gs-batch-processing
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -467,6 +477,7 @@ jobs:
     - get: gs-caching
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -481,6 +492,7 @@ jobs:
     - get: gs-caching-gemfire
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -495,6 +507,7 @@ jobs:
     - get: gs-centralized-configuration
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -509,6 +522,7 @@ jobs:
     - get: gs-circuit-breaker
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -523,6 +537,7 @@ jobs:
     - get: gs-client-side-load-balancing
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -537,6 +552,7 @@ jobs:
     - get: gs-consuming-rest
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -551,6 +567,7 @@ jobs:
     - get: gs-consuming-web-service
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -565,6 +582,7 @@ jobs:
     - get: gs-crud-with-vaadin
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -579,6 +597,7 @@ jobs:
     - get: gs-device-detection
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -593,6 +612,7 @@ jobs:
     - get: gs-handling-form-submission
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -607,6 +627,7 @@ jobs:
     - get: gs-handling-site-preference
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -621,6 +642,7 @@ jobs:
     - get: gs-integration
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -635,6 +657,7 @@ jobs:
     - get: gs-managing-transactions
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -649,6 +672,7 @@ jobs:
     - get: gs-maven
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -663,6 +687,7 @@ jobs:
     - get: gs-messaging-jms
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -677,6 +702,7 @@ jobs:
     - get: gs-messaging-redis
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -691,6 +717,7 @@ jobs:
     - get: gs-messaging-stomp-websocket
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -705,6 +732,7 @@ jobs:
     - get: gs-multi-module
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -719,6 +747,7 @@ jobs:
     - get: gs-producing-web-service
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -733,6 +762,7 @@ jobs:
     - get: gs-relational-data-access
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -747,6 +777,7 @@ jobs:
     - get: gs-rest-hateoas
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -761,6 +792,7 @@ jobs:
     - get: gs-rest-service
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -775,6 +807,7 @@ jobs:
     - get: gs-rest-service-cors
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -789,6 +822,7 @@ jobs:
     - get: gs-scheduling-tasks
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -803,6 +837,7 @@ jobs:
     - get: gs-securing-web
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -817,6 +852,7 @@ jobs:
     - get: gs-service-registration-and-discovery
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -831,6 +867,7 @@ jobs:
     - get: gs-serving-mobile-web-content
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -845,6 +882,7 @@ jobs:
     - get: gs-serving-web-content
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -859,6 +897,7 @@ jobs:
     - get: gs-spring-boot
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -873,6 +912,7 @@ jobs:
     - get: gs-spring-boot-docker
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -887,6 +927,7 @@ jobs:
     - get: gs-testing-restdocs
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -901,6 +942,7 @@ jobs:
     - get: gs-testing-web
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -915,6 +957,7 @@ jobs:
     - get: gs-uploading-files
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -929,6 +972,7 @@ jobs:
     - get: gs-validating-form-input
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -943,6 +987,7 @@ jobs:
     - get: gs-accessing-data-gemfire
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -957,6 +1002,7 @@ jobs:
     - get: gs-accessing-data-jpa
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -971,6 +1017,7 @@ jobs:
     - get: gs-accessing-data-rest
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -985,6 +1032,7 @@ jobs:
     - get: gs-accessing-facebook
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -999,6 +1047,7 @@ jobs:
     - get: gs-accessing-gemfire-data-rest
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1013,6 +1062,7 @@ jobs:
     - get: gs-accessing-twitter
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1027,6 +1077,7 @@ jobs:
     - get: gs-actuator-service
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1041,6 +1092,7 @@ jobs:
     - get: gs-async-method
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1055,6 +1107,7 @@ jobs:
     - get: gs-authenticating-ldap
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1069,6 +1122,7 @@ jobs:
     - get: gs-batch-processing
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1083,6 +1137,7 @@ jobs:
     - get: gs-caching
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1097,6 +1152,7 @@ jobs:
     - get: gs-caching-gemfire
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1111,6 +1167,7 @@ jobs:
     - get: gs-consuming-rest
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1125,6 +1182,7 @@ jobs:
     - get: gs-consuming-web-service
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1139,6 +1197,7 @@ jobs:
     - get: gs-crud-with-vaadin
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1153,6 +1212,7 @@ jobs:
     - get: gs-device-detection
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1167,6 +1227,7 @@ jobs:
     - get: gs-gradle
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1181,6 +1242,7 @@ jobs:
     - get: gs-handling-form-submission
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1195,6 +1257,7 @@ jobs:
     - get: gs-handling-site-preference
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1209,6 +1272,7 @@ jobs:
     - get: gs-integration
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1223,6 +1287,7 @@ jobs:
     - get: gs-managing-transactions
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1237,6 +1302,7 @@ jobs:
     - get: gs-messaging-jms
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1251,6 +1317,7 @@ jobs:
     - get: gs-messaging-redis
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1265,6 +1332,7 @@ jobs:
     - get: gs-messaging-stomp-websocket
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1279,6 +1347,7 @@ jobs:
     - get: gs-producing-web-service
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1293,6 +1362,7 @@ jobs:
     - get: gs-relational-data-access
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1307,6 +1377,7 @@ jobs:
     - get: gs-rest-hateoas
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1321,6 +1392,7 @@ jobs:
     - get: gs-rest-service
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1335,6 +1407,7 @@ jobs:
     - get: gs-rest-service-cors
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1349,6 +1422,7 @@ jobs:
     - get: gs-scheduling-tasks
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1363,6 +1437,7 @@ jobs:
     - get: gs-securing-web
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1377,6 +1452,7 @@ jobs:
     - get: gs-serving-mobile-web-content
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1391,6 +1467,7 @@ jobs:
     - get: gs-serving-web-content
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1405,6 +1482,7 @@ jobs:
     - get: gs-spring-boot
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1419,6 +1497,7 @@ jobs:
     - get: gs-spring-boot-docker
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1433,6 +1512,7 @@ jobs:
     - get: gs-testing-restdocs
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1447,6 +1527,7 @@ jobs:
     - get: gs-testing-web
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1461,6 +1542,7 @@ jobs:
     - get: gs-uploading-files
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1475,6 +1557,7 @@ jobs:
     - get: gs-validating-form-input
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -1489,6 +1572,7 @@ jobs:
     - get: gs-messaging-rabbitmq
       trigger: true
     - get: rabbit-base-image
+      trigger: true
       passed: [rabbit-image]
   - task: maven
     file: ci/rabbit/install.yml
@@ -1502,6 +1586,7 @@ jobs:
     - get: gs-messaging-rabbitmq
       trigger: true
     - get: rabbit-base-image
+      trigger: true
       passed: [rabbit-image]
   - task: gradle
     file: ci/rabbit/build.yml
@@ -1516,6 +1601,7 @@ jobs:
     - get: gs-accessing-data-mongodb
       trigger: true
     - get: mongo-base-image
+      trigger: true
       passed: [mongo-image]
   - task: maven
     file: ci/mongo/install.yml
@@ -1529,6 +1615,7 @@ jobs:
     - get: gs-accessing-data-mongodb
       trigger: true
     - get: mongo-base-image
+      trigger: true
       passed: [mongo-image]
   - task: gradle
     file: ci/mongo/build.yml
@@ -1543,6 +1630,7 @@ jobs:
     - get: gs-accessing-mongodb-data-rest
       trigger: true
     - get: mongo-base-image
+      trigger: true
       passed: [mongo-image]
   - task: maven
     file: ci/mongo/install.yml
@@ -1556,6 +1644,7 @@ jobs:
     - get: gs-accessing-mongodb-data-rest
       trigger: true
     - get: mongo-base-image
+      trigger: true
       passed: [mongo-image]
   - task: gradle
     file: ci/mongo/build.yml
@@ -1570,6 +1659,7 @@ jobs:
     - get: gs-accessing-data-neo4j
       trigger: true
     - get: neo-base-image
+      trigger: true
       passed: [neo-image]
   - task: maven
     file: ci/neo/install.yml
@@ -1583,6 +1673,7 @@ jobs:
     - get: gs-accessing-data-neo4j
       trigger: true
     - get: neo-base-image
+      trigger: true
       passed: [neo-image]
   - task: gradle
     file: ci/neo/build.yml
@@ -1597,6 +1688,7 @@ jobs:
     - get: gs-accessing-neo4j-data-rest
       trigger: true
     - get: neo-base-image
+      trigger: true
       passed: [neo-image]
   - task: maven
     file: ci/neo/install.yml
@@ -1610,6 +1702,7 @@ jobs:
     - get: gs-accessing-neo4j-data-rest
       trigger: true
     - get: neo-base-image
+      trigger: true
       passed: [neo-image]
   - task: gradle
     file: ci/neo/build.yml

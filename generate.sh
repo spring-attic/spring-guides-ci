@@ -183,6 +183,7 @@ for project in "${mavens[@]}"; do
     - get: $project
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: maven
     file: ci/tasks/install.yml
@@ -201,6 +202,7 @@ for project in "${gradles[@]}"; do
     - get: $project
       trigger: true
     - get: base-image
+      trigger: true
       passed: [image]
   - task: gradle
     file: ci/tasks/build.yml
@@ -219,6 +221,7 @@ for project in "${rabbits[@]}"; do
     - get: $project
       trigger: true
     - get: rabbit-base-image
+      trigger: true
       passed: [rabbit-image]
   - task: maven
     file: ci/rabbit/install.yml
@@ -232,6 +235,7 @@ for project in "${rabbits[@]}"; do
     - get: $project
       trigger: true
     - get: rabbit-base-image
+      trigger: true
       passed: [rabbit-image]
   - task: gradle
     file: ci/rabbit/build.yml
@@ -250,6 +254,7 @@ for project in "${mongos[@]}"; do
     - get: $project
       trigger: true
     - get: mongo-base-image
+      trigger: true
       passed: [mongo-image]
   - task: maven
     file: ci/mongo/install.yml
@@ -263,6 +268,7 @@ for project in "${mongos[@]}"; do
     - get: $project
       trigger: true
     - get: mongo-base-image
+      trigger: true
       passed: [mongo-image]
   - task: gradle
     file: ci/mongo/build.yml
@@ -281,6 +287,7 @@ for project in "${neos[@]}"; do
     - get: $project
       trigger: true
     - get: neo-base-image
+      trigger: true
       passed: [neo-image]
   - task: maven
     file: ci/neo/install.yml
@@ -294,6 +301,7 @@ for project in "${neos[@]}"; do
     - get: $project
       trigger: true
     - get: neo-base-image
+      trigger: true
       passed: [neo-image]
   - task: gradle
     file: ci/neo/build.yml
