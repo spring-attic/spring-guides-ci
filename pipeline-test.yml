@@ -22,7 +22,7 @@ jobs:
   - put: base-image
     params:
       build: build/image
-- name: mongo-image
+- name: neo-image
   public: true
   serial: true
   plan:
@@ -38,9 +38,9 @@ jobs:
     params:
       PUBLIC_KEY: {{public-key}}
       PRIVATE_KEY: {{private-key}}
-  - put: mongo-base-image
+  - put: neo-base-image
     params:
-      build: ci/mongo
+      build: ci/neo
 - name: maven-test
   plan:
   - aggregate:
@@ -69,34 +69,34 @@ jobs:
     image: base-image
     input_mapping:
       source: gs-rest-service
-- name: mongo-maven-test
+- name: neo-maven-test
   plan:
   - aggregate:
     - get: ci
-    - get: gs-accessing-data-mongodb
+    - get: gs-accessing-data-neo4j
       trigger: true
-    - get: mongo-base-image
+    - get: neo-base-image
       trigger: true
-      passed: [mongo-image]
-  - task: gs-accessing-data-mongodb
-    file: ci/mongo/install.yml
-    image: mongo-base-image
+      passed: [neo-image]
+  - task: gs-accessing-data-neo4j
+    file: ci/neo/install.yml
+    image: neo-base-image
     input_mapping:
-      source: gs-accessing-data-mongodb
-- name: mongo-gradle-test
+      source: gs-accessing-data-neo4j
+- name: neo-gradle-test
   plan:
   - aggregate:
     - get: ci
-    - get: gs-accessing-data-mongodb
+    - get: gs-accessing-data-neo4j
       trigger: true
-    - get: mongo-base-image
+    - get: neo-base-image
       trigger: true
-      passed: [mongo-image]
-  - task: gs-accessing-data-mongodb
-    file: ci/mongo/build.yml
-    image: mongo-base-image
+      passed: [neo-image]
+  - task: gs-accessing-data-neo4j
+    file: ci/neo/build.yml
+    image: neo-base-image
     input_mapping:
-      source: gs-accessing-data-mongodb
+      source: gs-accessing-data-neo4j
 
 resources:
 - name: gs-rest-service
@@ -104,10 +104,10 @@ resources:
   source:
     uri: https://github.com/spring-guides/gs-rest-service.git
 
-- name: gs-accessing-data-mongodb
+- name: gs-accessing-data-neo4j
   type: git
   source:
-    uri: https://github.com/spring-guides/gs-accessing-data-mongodb.git
+    uri: https://github.com/spring-guides/gs-accessing-data-neo4j.git
 
 - name: image-source
   type: git
@@ -119,7 +119,7 @@ resources:
   type: git
   source:
     uri: https://github.com/dsyer/spring-guides-ci.git
-    branch: mongo
+    branch: neo
 
 - name: base-image
   type: docker-image
@@ -129,10 +129,10 @@ resources:
     password: {{docker-hub-password}}
     repository: springio/spring-ci-base
 
-- name: mongo-base-image
+- name: neo-base-image
   type: docker-image
   source:
     email: {{docker-hub-email}}
     username: {{docker-hub-username}}
     password: {{docker-hub-password}}
-    repository: springio/spring-mongo-base
+    repository: springio/spring-neo-base

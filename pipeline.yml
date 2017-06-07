@@ -11,7 +11,7 @@ resources:
   type: git
   source:
     uri: https://github.com/dsyer/spring-guides-ci.git
-    branch: mongo
+    branch: neo
 - name: base-image
   type: docker-image
   source:
@@ -33,10 +33,21 @@ resources:
     username: {{docker-hub-username}}
     password: {{docker-hub-password}}
     repository: springio/spring-mongo-base
+- name: neo-base-image
+  type: docker-image
+  source:
+    email: {{docker-hub-email}}
+    username: {{docker-hub-username}}
+    password: {{docker-hub-password}}
+    repository: springio/spring-neo-base
 - name: gs-accessing-data-mongodb
   type: git
   source:
     uri: https://github.com/spring-guides/gs-accessing-data-mongodb.git
+- name: gs-accessing-data-neo4j
+  type: git
+  source:
+    uri: https://github.com/spring-guides/gs-accessing-data-neo4j.git
 - name: gs-messaging-rabbitmq
   type: git
   source:
@@ -105,6 +116,26 @@ jobs:
   - put: mongo-base-image
     params:
       build: ci/mongo
+
+- name: neo-image
+  public: true
+  serial: true
+  plan:
+  - aggregate:
+    - get: ci
+      trigger: true
+    - get: image-source
+      trigger: true
+  - task: setup
+    file: ci/image/setup.yml
+    input_mapping:
+      source: image-source
+    params:
+      PUBLIC_KEY: {{public-key}}
+      PRIVATE_KEY: {{private-key}}
+  - put: neo-base-image
+    params:
+      build: ci/neo
 
 - name: gs-rest-service-maven
   plan:
@@ -188,32 +219,66 @@ jobs:
     input_mapping:
       source: gs-accessing-data-mongodb
 
+- name: gs-accessing-data-neo4j-maven
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-accessing-data-neo4j
+      trigger: true
+    - get: neo-base-image
+      passed: [neo-image]
+  - task: maven
+    file: ci/neo/install.yml
+    image: neo-base-image
+    input_mapping:
+      source: gs-accessing-data-neo4j
+- name: gs-accessing-data-neo4j-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-accessing-data-neo4j
+      trigger: true
+    - get: neo-base-image
+      passed: [neo-image]
+  - task: gradle
+    file: ci/neo/build.yml
+    image: neo-base-image
+    input_mapping:
+      source: gs-accessing-data-neo4j
+
 groups:
 - name: all
   jobs:
   - image
   - rabbit-image
   - mongo-image
+  - neo-image
   - gs-rest-service-maven
   - gs-rest-service-gradle
   - gs-messaging-rabbitmq-maven
   - gs-messaging-rabbitmq-gradle
   - gs-accessing-data-mongodb-maven
   - gs-accessing-data-mongodb-gradle
+  - gs-accessing-data-neo4j-maven
+  - gs-accessing-data-neo4j-gradle
 - name: images
   jobs:
   - image
   - rabbit-image
+  - mongo-image
+  - neo-image
 - name: maven
   jobs:
   - gs-rest-service-maven
   - gs-messaging-rabbitmq-maven
   - gs-accessing-data-mongodb-maven
+  - gs-accessing-data-neo4j-maven
 - name: gradle
   jobs:
   - gs-rest-service-gradle
   - gs-messaging-rabbitmq-gradle
   - gs-accessing-data-mongodb-gradle
+  - gs-accessing-data-neo4j-gradle
 - name: rabbit
   jobs:
   - gs-messaging-rabbitmq-maven
@@ -222,3 +287,7 @@ groups:
   jobs:
   - gs-accessing-data-mongodb-maven
   - gs-accessing-data-mongodb-gradle
+- name: neo
+  jobs:
+  - gs-accessing-data-neo4j-maven
+  - gs-accessing-data-neo4j-gradle

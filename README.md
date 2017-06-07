@@ -6,7 +6,6 @@ script to generate a `pipeline.yml`.
 
 ```
 $ ./generate.sh
-$ fly --target spring login --concourse-url https://ci.spring.io --team-name spring-guides
 ```
 
 Make credentials.yml containing 
@@ -22,5 +21,6 @@ private-key: <private key for signing jars>
 And then deploy the pipeline:
 
 ```
-$ fly --target spring set-pipeline --config pipeline.yml --pipeli --load-vars-from credentials.yml
-`
+$ fly --target guides login --concourse-url https://ci.spring.io --team-name spring-guides
+$ fly --target guides set-pipeline --config pipeline.yml --pipeline spring-guides-ci --load-vars-from credentials.yml
+```

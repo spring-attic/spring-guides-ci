@@ -9,6 +9,7 @@ output=pipeline.yml;
 mavens=();
 rabbits=();
 mongos=();
+neos=();
 gradles=();
 
 function project() {
@@ -29,7 +30,7 @@ resources:
   type: git
   source:
     uri: https://github.com/dsyer/spring-guides-ci.git
-    branch: mongo
+    branch: neo
 - name: base-image
   type: docker-image
   source:
@@ -51,6 +52,13 @@ resources:
     username: {{docker-hub-username}}
     password: {{docker-hub-password}}
     repository: springio/spring-mongo-base
+- name: neo-base-image
+  type: docker-image
+  source:
+    email: {{docker-hub-email}}
+    username: {{docker-hub-username}}
+    password: {{docker-hub-password}}
+    repository: springio/spring-neo-base
 EOF
 
 for f in `find ../gs-* -name complete -type d | sort`; do
@@ -127,6 +135,26 @@ jobs:
     params:
       build: ci/mongo
 
+- name: neo-image
+  public: true
+  serial: true
+  plan:
+  - aggregate:
+    - get: ci
+      trigger: true
+    - get: image-source
+      trigger: true
+  - task: setup
+    file: ci/image/setup.yml
+    input_mapping:
+      source: image-source
+    params:
+      PUBLIC_KEY: {{public-key}}
+      PRIVATE_KEY: {{private-key}}
+  - put: neo-base-image
+    params:
+      build: ci/neo
+
 EOF
 
 for f in `find ../gs-* -name complete -type d | sort`; do
@@ -135,6 +163,8 @@ for f in `find ../gs-* -name complete -type d | sort`; do
         rabbits+=(${project});
     elif echo ${project} | grep -q mongo; then
         mongos+=(${project});
+    elif echo ${project} | grep -q neo4j; then
+        neos+=(${project});
     else
         if [ -e $f/pom.xml ]; then
             mavens+=(${project});
@@ -243,6 +273,37 @@ for project in "${mongos[@]}"; do
 
 EOF
 done
+for project in "${neos[@]}"; do
+  cat >> $output <<EOF
+- name: ${project}-maven
+  plan:
+  - aggregate:
+    - get: ci
+    - get: $project
+      trigger: true
+    - get: neo-base-image
+      passed: [neo-image]
+  - task: maven
+    file: ci/neo/install.yml
+    image: neo-base-image
+    input_mapping:
+      source: $project
+- name: ${project}-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: $project
+      trigger: true
+    - get: neo-base-image
+      passed: [neo-image]
+  - task: gradle
+    file: ci/neo/build.yml
+    image: neo-base-image
+    input_mapping:
+      source: $project
+
+EOF
+done
 
 cat >> $output <<EOF
 groups:
@@ -251,6 +312,7 @@ groups:
   - image
   - rabbit-image
   - mongo-image
+  - neo-image
 EOF
 for project in "${mavens[@]}"; do
     echo >> $output "  - "${project}"-maven"
@@ -266,11 +328,17 @@ for project in "${mongos[@]}"; do
     echo >> $output "  - "${project}"-maven"
     echo >> $output "  - "${project}"-gradle"
 done  
+for project in "${neos[@]}"; do
+    echo >> $output "  - "${project}"-maven"
+    echo >> $output "  - "${project}"-gradle"
+done  
 cat >> $output <<EOF
 - name: images
   jobs:
   - image
   - rabbit-image
+  - mongo-image
+  - neo-image
 - name: maven
   jobs:
 EOF
@@ -281,6 +349,9 @@ for project in "${rabbits[@]}"; do
     echo >> $output "  - "${project}"-maven"
 done
 for project in "${mongos[@]}"; do
+    echo >> $output "  - "${project}"-maven"
+done
+for project in "${neos[@]}"; do
     echo >> $output "  - "${project}"-maven"
 done
 cat >> $output <<EOF
@@ -296,6 +367,9 @@ done
 for project in "${mongos[@]}"; do
     echo >> $output "  - "${project}"-gradle"
 done
+for project in "${neos[@]}"; do
+    echo >> $output "  - "${project}"-gradle"
+done
 cat >> $output <<EOF
 - name: rabbit
   jobs:
@@ -309,6 +383,14 @@ cat >> $output <<EOF
   jobs:
 EOF
 for project in "${mongos[@]}"; do
+    echo >> $output "  - "${project}"-maven"
+    echo >> $output "  - "${project}"-gradle"
+done
+cat >> $output <<EOF
+- name: neo
+  jobs:
+EOF
+for project in "${neos[@]}"; do
     echo >> $output "  - "${project}"-maven"
     echo >> $output "  - "${project}"-gradle"
 done
