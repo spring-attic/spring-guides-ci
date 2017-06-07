@@ -22,7 +22,7 @@ jobs:
   - put: base-image
     params:
       build: build/image
-- name: rabbit-image
+- name: mongo-image
   public: true
   serial: true
   plan:
@@ -38,9 +38,9 @@ jobs:
     params:
       PUBLIC_KEY: {{public-key}}
       PRIVATE_KEY: {{private-key}}
-  - put: rabbit-base-image
+  - put: mongo-base-image
     params:
-      build: ci/rabbit
+      build: ci/mongo
 - name: maven-test
   plan:
   - aggregate:
@@ -69,36 +69,34 @@ jobs:
     image: base-image
     input_mapping:
       source: gs-rest-service
-- name: rabbit-maven-test
+- name: mongo-maven-test
   plan:
   - aggregate:
     - get: ci
-    - get: gs-messaging-rabbitmq
+    - get: gs-accessing-data-mongodb
       trigger: true
-    - get: rabbit-base-image
+    - get: mongo-base-image
       trigger: true
-      passed: [rabbit-image]
-  - task: gs-messaging-rabbitmq-maven
-    file: ci/rabbit/install.yml
-    image: rabbit-base-image
-    privileged: true
+      passed: [mongo-image]
+  - task: gs-accessing-data-mongodb
+    file: ci/mongo/install.yml
+    image: mongo-base-image
     input_mapping:
-      source: gs-messaging-rabbitmq
-- name: rabbit-gradle-test
+      source: gs-accessing-data-mongodb
+- name: mongo-gradle-test
   plan:
   - aggregate:
     - get: ci
-    - get: gs-messaging-rabbitmq
+    - get: gs-accessing-data-mongodb
       trigger: true
-    - get: rabbit-base-image
+    - get: mongo-base-image
       trigger: true
-      passed: [rabbit-image]
-  - task: gs-messaging-rabbitmq
-    file: ci/rabbit/build.yml
-    image: rabbit-base-image
-    privileged: true
+      passed: [mongo-image]
+  - task: gs-accessing-data-mongodb
+    file: ci/mongo/build.yml
+    image: mongo-base-image
     input_mapping:
-      source: gs-messaging-rabbitmq
+      source: gs-accessing-data-mongodb
 
 resources:
 - name: gs-rest-service
@@ -106,10 +104,10 @@ resources:
   source:
     uri: https://github.com/spring-guides/gs-rest-service.git
 
-- name: gs-messaging-rabbitmq
+- name: gs-accessing-data-mongodb
   type: git
   source:
-    uri: https://github.com/spring-guides/gs-messaging-rabbitmq.git
+    uri: https://github.com/spring-guides/gs-accessing-data-mongodb.git
 
 - name: image-source
   type: git
@@ -121,7 +119,7 @@ resources:
   type: git
   source:
     uri: https://github.com/dsyer/spring-guides-ci.git
-    branch: rabbit
+    branch: mongo
 
 - name: base-image
   type: docker-image
@@ -131,10 +129,10 @@ resources:
     password: {{docker-hub-password}}
     repository: springio/spring-ci-base
 
-- name: rabbit-base-image
+- name: mongo-base-image
   type: docker-image
   source:
     email: {{docker-hub-email}}
     username: {{docker-hub-username}}
     password: {{docker-hub-password}}
-    repository: springio/spring-rabbit-base
+    repository: springio/spring-mongo-base

@@ -1,0 +1,26 @@
+# Set up a rabbit and java base image
+---
+jobs:
+- name: rabbit-image
+  public: true
+  serial: true
+  plan:
+  - get: ci
+    trigger: true
+  - put: rabbit-base-image
+    params:
+      build: ci/rabbit
+
+resources:
+- name: ci
+  type: git
+  source:
+    uri: https://github.com/spring-guides/spring-guides-ci.git
+
+- name: rabbit-base-image
+  type: docker-image
+  source:
+    email: {{docker-hub-email}}
+    username: {{docker-hub-username}}
+    password: {{docker-hub-password}}
+    repository: springio/rabbit-base

@@ -8,6 +8,7 @@
 output=pipeline.yml;
 mavens=();
 rabbits=();
+mongos=();
 gradles=();
 
 function project() {
@@ -28,7 +29,7 @@ resources:
   type: git
   source:
     uri: https://github.com/dsyer/spring-guides-ci.git
-    branch: rabbit
+    branch: mongo
 - name: base-image
   type: docker-image
   source:
@@ -43,6 +44,13 @@ resources:
     username: {{docker-hub-username}}
     password: {{docker-hub-password}}
     repository: springio/spring-rabbit-base
+- name: mongo-base-image
+  type: docker-image
+  source:
+    email: {{docker-hub-email}}
+    username: {{docker-hub-username}}
+    password: {{docker-hub-password}}
+    repository: springio/spring-mongo-base
 EOF
 
 for f in `find ../gs-* -name complete -type d | sort`; do
@@ -99,21 +107,39 @@ jobs:
   - put: rabbit-base-image
     params:
       build: ci/rabbit
+- name: mongo-image
+  public: true
+  serial: true
+  plan:
+  - aggregate:
+    - get: ci
+      trigger: true
+    - get: image-source
+      trigger: true
+  - task: setup
+    file: ci/image/setup.yml
+    input_mapping:
+      source: image-source
+    params:
+      PUBLIC_KEY: {{public-key}}
+      PRIVATE_KEY: {{private-key}}
+  - put: mongo-base-image
+    params:
+      build: ci/mongo
 
 EOF
 
 for f in `find ../gs-* -name complete -type d | sort`; do
-    if [ -e $f/pom.xml ]; then
-        project=$(project $f)
-        if echo ${project} | grep -q rabbit; then
-            rabbits+=(${project});
-        else
+    project=$(project $f)
+    if echo ${project} | grep -q rabbit; then
+        rabbits+=(${project});
+    elif echo ${project} | grep -q mongo; then
+        mongos+=(${project});
+    else
+        if [ -e $f/pom.xml ]; then
             mavens+=(${project});
         fi
-    fi
-    if [ -e $f/build.gradle ]; then
-        project=$(project $f)
-        if ! echo ${project} | grep -q rabbit; then
+        if [ -e $f/build.gradle ]; then
             gradles+=(${project});
         fi
     fi
@@ -178,9 +204,40 @@ for project in "${rabbits[@]}"; do
       trigger: true
     - get: rabbit-base-image
       passed: [rabbit-image]
-  - task: maven
+  - task: gradle
     file: ci/rabbit/build.yml
     image: rabbit-base-image
+    input_mapping:
+      source: $project
+
+EOF
+done
+for project in "${mongos[@]}"; do
+  cat >> $output <<EOF
+- name: ${project}-maven
+  plan:
+  - aggregate:
+    - get: ci
+    - get: $project
+      trigger: true
+    - get: mongo-base-image
+      passed: [mongo-image]
+  - task: maven
+    file: ci/mongo/install.yml
+    image: mongo-base-image
+    input_mapping:
+      source: $project
+- name: ${project}-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: $project
+      trigger: true
+    - get: mongo-base-image
+      passed: [mongo-image]
+  - task: gradle
+    file: ci/mongo/build.yml
+    image: mongo-base-image
     input_mapping:
       source: $project
 
@@ -193,11 +250,20 @@ groups:
   jobs:
   - image
   - rabbit-image
+  - mongo-image
 EOF
 for project in "${mavens[@]}"; do
     echo >> $output "  - "${project}"-maven"
 done
 for project in "${gradles[@]}"; do
+    echo >> $output "  - "${project}"-gradle"
+done  
+for project in "${rabbits[@]}"; do
+    echo >> $output "  - "${project}"-maven"
+    echo >> $output "  - "${project}"-gradle"
+done  
+for project in "${mongos[@]}"; do
+    echo >> $output "  - "${project}"-maven"
     echo >> $output "  - "${project}"-gradle"
 done  
 cat >> $output <<EOF
@@ -214,6 +280,9 @@ done
 for project in "${rabbits[@]}"; do
     echo >> $output "  - "${project}"-maven"
 done
+for project in "${mongos[@]}"; do
+    echo >> $output "  - "${project}"-maven"
+done
 cat >> $output <<EOF
 - name: gradle
   jobs:
@@ -224,11 +293,22 @@ done
 for project in "${rabbits[@]}"; do
     echo >> $output "  - "${project}"-gradle"
 done
+for project in "${mongos[@]}"; do
+    echo >> $output "  - "${project}"-gradle"
+done
 cat >> $output <<EOF
 - name: rabbit
   jobs:
 EOF
 for project in "${rabbits[@]}"; do
+    echo >> $output "  - "${project}"-maven"
+    echo >> $output "  - "${project}"-gradle"
+done
+cat >> $output <<EOF
+- name: mongo
+  jobs:
+EOF
+for project in "${mongos[@]}"; do
     echo >> $output "  - "${project}"-maven"
     echo >> $output "  - "${project}"-gradle"
 done
