@@ -10,8 +10,7 @@ resources:
 - name: ci
   type: git
   source:
-    uri: https://github.com/dsyer/spring-guides-ci.git
-    branch: neo
+    uri: https://github.com/spring-guides/spring-guides-ci.git
 - name: base-image
   type: docker-image
   source:
