@@ -58,6 +58,20 @@ resources:
     username: {{docker-hub-username}}
     password: {{docker-hub-password}}
     repository: springio/spring-neo-base
+- name: openjdk:8-jdk
+  type: docker-image
+  source:
+    repository: openjdk
+    tag:        8-jdk
+- name: neo4j
+  type: docker-image
+  source:
+    repository: neo4j
+- name: rabbitmq:management
+  type: docker-image
+  source:
+    repository: rabbitmq
+    tag:        management
 EOF
 
 for f in `find ../gs-* -name complete -type d | sort`; do
@@ -84,14 +98,15 @@ jobs:
       trigger: true
     - get: image-source
       trigger: true
-  - aggregate:
-    - task: setup
-      file: ci/image/setup.yml
-      input_mapping:
-        source: image-source
-      params:
-        PUBLIC_KEY: {{public-key}}
-        PRIVATE_KEY: {{private-key}}
+    - get: openjdk:8-jdk
+      trigger: true
+  - task: setup
+    file: ci/image/setup.yml
+    input_mapping:
+      source: image-source
+    params:
+      PUBLIC_KEY: {{public-key}}
+      PRIVATE_KEY: {{private-key}}
   - put: base-image
     params:
       build: build/image
@@ -103,6 +118,8 @@ jobs:
     - get: ci
       trigger: true
     - get: image-source
+      trigger: true
+    - get: rabbitmq:management
       trigger: true
   - task: setup
     file: ci/image/setup.yml
@@ -123,6 +140,8 @@ jobs:
       trigger: true
     - get: image-source
       trigger: true
+    - get: openjdk:8-jdk
+      trigger: true
   - task: setup
     file: ci/image/setup.yml
     input_mapping:
@@ -142,6 +161,8 @@ jobs:
     - get: ci
       trigger: true
     - get: image-source
+      trigger: true
+    - get: neo4j
       trigger: true
   - task: setup
     file: ci/image/setup.yml
@@ -326,19 +347,19 @@ for project in "${mavens[@]}"; do
 done
 for project in "${gradles[@]}"; do
     echo >> $output "  - "${project}"-gradle"
-done  
+done
 for project in "${rabbits[@]}"; do
     echo >> $output "  - "${project}"-maven"
     echo >> $output "  - "${project}"-gradle"
-done  
+done
 for project in "${mongos[@]}"; do
     echo >> $output "  - "${project}"-maven"
     echo >> $output "  - "${project}"-gradle"
-done  
+done
 for project in "${neos[@]}"; do
     echo >> $output "  - "${project}"-maven"
     echo >> $output "  - "${project}"-gradle"
-done  
+done
 cat >> $output <<EOF
 - name: images
   jobs:
