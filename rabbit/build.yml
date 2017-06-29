@@ -3,6 +3,8 @@ platform: linux
 inputs:
   - name: source
   - name: ci
+caches:
+  - path: source/.gradle
 run:
   path: ci/rabbit/build.sh
 params:

@@ -2,4 +2,4 @@
 
 ci/neo/run.sh
 cd source/complete
-./gradlew build
+./gradlew build -g ../.gradle
