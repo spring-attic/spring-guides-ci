@@ -2,11 +2,6 @@
 # fly --target spring set-pipeline --config pipeline.yml --pipeline spring-guides-ci --load-vars-from credentials.yml
 ---
 resources:
-- name: image-source
-  type: git
-  source:
-    uri: https://github.com/spring-guides/gs-rest-service.git
-    paths: [complete/pom.xml, complete/build.gradle]
 - name: ci
   type: git
   source:
@@ -51,6 +46,10 @@ resources:
   type: git
   source:
     uri: https://github.com/spring-guides/gs-accessing-data-mongodb.git
+- name: gs-accessing-data-mysql
+  type: git
+  source:
+    uri: https://github.com/spring-guides/gs-accessing-data-mysql.git
 - name: gs-accessing-data-neo4j
   type: git
   source:
@@ -135,6 +134,10 @@ resources:
   type: git
   source:
     uri: https://github.com/spring-guides/gs-gradle.git
+- name: gs-gradle-yarn
+  type: git
+  source:
+    uri: https://github.com/spring-guides/gs-gradle-yarn.git
 - name: gs-handling-form-submission
   type: git
   source:
@@ -155,6 +158,10 @@ resources:
   type: git
   source:
     uri: https://github.com/spring-guides/gs-maven.git
+- name: gs-maven-yarn
+  type: git
+  source:
+    uri: https://github.com/spring-guides/gs-maven-yarn.git
 - name: gs-messaging-jms
   type: git
   source:
@@ -195,6 +202,10 @@ resources:
   type: git
   source:
     uri: https://github.com/spring-guides/gs-rest-service-cors.git
+- name: gs-routing-and-filtering
+  type: git
+  source:
+    uri: https://github.com/spring-guides/gs-routing-and-filtering.git
 - name: gs-scheduling-tasks
   type: git
   source:
@@ -239,6 +250,26 @@ resources:
   type: git
   source:
     uri: https://github.com/spring-guides/gs-validating-form-input.git
+- name: gs-yarn-basic
+  type: git
+  source:
+    uri: https://github.com/spring-guides/gs-yarn-basic.git
+- name: gs-yarn-basic-single
+  type: git
+  source:
+    uri: https://github.com/spring-guides/gs-yarn-basic-single.git
+- name: gs-yarn-batch-processing
+  type: git
+  source:
+    uri: https://github.com/spring-guides/gs-yarn-batch-processing.git
+- name: gs-yarn-batch-restart
+  type: git
+  source:
+    uri: https://github.com/spring-guides/gs-yarn-batch-restart.git
+- name: gs-yarn-testing
+  type: git
+  source:
+    uri: https://github.com/spring-guides/gs-yarn-testing.git
 
 jobs:
 - name: image
@@ -248,13 +279,9 @@ jobs:
   - aggregate:
     - get: ci
       trigger: true
-    - get: image-source
-      trigger: true
   - aggregate:
     - task: setup
       file: ci/image/setup.yml
-      input_mapping:
-        source: image-source
       params:
         PUBLIC_KEY: {{public-key}}
         PRIVATE_KEY: {{private-key}}
@@ -268,12 +295,8 @@ jobs:
   - aggregate:
     - get: ci
       trigger: true
-    - get: image-source
-      trigger: true
   - task: setup
     file: ci/image/setup.yml
-    input_mapping:
-      source: image-source
     params:
       PUBLIC_KEY: {{public-key}}
       PRIVATE_KEY: {{private-key}}
@@ -287,12 +310,8 @@ jobs:
   - aggregate:
     - get: ci
       trigger: true
-    - get: image-source
-      trigger: true
   - task: setup
     file: ci/image/setup.yml
-    input_mapping:
-      source: image-source
     params:
       PUBLIC_KEY: {{public-key}}
       PRIVATE_KEY: {{private-key}}
@@ -307,12 +326,8 @@ jobs:
   - aggregate:
     - get: ci
       trigger: true
-    - get: image-source
-      trigger: true
   - task: setup
     file: ci/image/setup.yml
-    input_mapping:
-      source: image-source
     params:
       PUBLIC_KEY: {{public-key}}
       PRIVATE_KEY: {{private-key}}
@@ -349,6 +364,21 @@ jobs:
     image: base-image
     input_mapping:
       source: gs-accessing-data-jpa
+
+- name: gs-accessing-data-mysql-maven
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-accessing-data-mysql
+      trigger: true
+    - get: base-image
+      trigger: true
+      passed: [image]
+  - task: maven
+    file: ci/tasks/install.yml
+    image: base-image
+    input_mapping:
+      source: gs-accessing-data-mysql
 
 - name: gs-accessing-data-rest-maven
   plan:
@@ -680,6 +710,21 @@ jobs:
     input_mapping:
       source: gs-maven
 
+- name: gs-maven-yarn-maven
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-maven-yarn
+      trigger: true
+    - get: base-image
+      trigger: true
+      passed: [image]
+  - task: maven
+    file: ci/tasks/install.yml
+    image: base-image
+    input_mapping:
+      source: gs-maven-yarn
+
 - name: gs-messaging-jms-maven
   plan:
   - aggregate:
@@ -814,6 +859,21 @@ jobs:
     image: base-image
     input_mapping:
       source: gs-rest-service-cors
+
+- name: gs-routing-and-filtering-maven
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-routing-and-filtering
+      trigger: true
+    - get: base-image
+      trigger: true
+      passed: [image]
+  - task: maven
+    file: ci/tasks/install.yml
+    image: base-image
+    input_mapping:
+      source: gs-routing-and-filtering
 
 - name: gs-scheduling-tasks-maven
   plan:
@@ -980,6 +1040,81 @@ jobs:
     input_mapping:
       source: gs-validating-form-input
 
+- name: gs-yarn-basic-maven
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-yarn-basic
+      trigger: true
+    - get: base-image
+      trigger: true
+      passed: [image]
+  - task: maven
+    file: ci/tasks/install.yml
+    image: base-image
+    input_mapping:
+      source: gs-yarn-basic
+
+- name: gs-yarn-basic-single-maven
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-yarn-basic-single
+      trigger: true
+    - get: base-image
+      trigger: true
+      passed: [image]
+  - task: maven
+    file: ci/tasks/install.yml
+    image: base-image
+    input_mapping:
+      source: gs-yarn-basic-single
+
+- name: gs-yarn-batch-processing-maven
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-yarn-batch-processing
+      trigger: true
+    - get: base-image
+      trigger: true
+      passed: [image]
+  - task: maven
+    file: ci/tasks/install.yml
+    image: base-image
+    input_mapping:
+      source: gs-yarn-batch-processing
+
+- name: gs-yarn-batch-restart-maven
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-yarn-batch-restart
+      trigger: true
+    - get: base-image
+      trigger: true
+      passed: [image]
+  - task: maven
+    file: ci/tasks/install.yml
+    image: base-image
+    input_mapping:
+      source: gs-yarn-batch-restart
+
+- name: gs-yarn-testing-maven
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-yarn-testing
+      trigger: true
+    - get: base-image
+      trigger: true
+      passed: [image]
+  - task: maven
+    file: ci/tasks/install.yml
+    image: base-image
+    input_mapping:
+      source: gs-yarn-testing
+
 - name: gs-accessing-data-gemfire-gradle
   plan:
   - aggregate:
@@ -1009,6 +1144,21 @@ jobs:
     image: base-image
     input_mapping:
       source: gs-accessing-data-jpa
+
+- name: gs-accessing-data-mysql-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-accessing-data-mysql
+      trigger: true
+    - get: base-image
+      trigger: true
+      passed: [image]
+  - task: gradle
+    file: ci/tasks/build.yml
+    image: base-image
+    input_mapping:
+      source: gs-accessing-data-mysql
 
 - name: gs-accessing-data-rest-gradle
   plan:
@@ -1234,6 +1384,21 @@ jobs:
     image: base-image
     input_mapping:
       source: gs-gradle
+
+- name: gs-gradle-yarn-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-gradle-yarn
+      trigger: true
+    - get: base-image
+      trigger: true
+      passed: [image]
+  - task: gradle
+    file: ci/tasks/build.yml
+    image: base-image
+    input_mapping:
+      source: gs-gradle-yarn
 
 - name: gs-handling-form-submission-gradle
   plan:
@@ -1565,6 +1730,81 @@ jobs:
     input_mapping:
       source: gs-validating-form-input
 
+- name: gs-yarn-basic-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-yarn-basic
+      trigger: true
+    - get: base-image
+      trigger: true
+      passed: [image]
+  - task: gradle
+    file: ci/tasks/build.yml
+    image: base-image
+    input_mapping:
+      source: gs-yarn-basic
+
+- name: gs-yarn-basic-single-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-yarn-basic-single
+      trigger: true
+    - get: base-image
+      trigger: true
+      passed: [image]
+  - task: gradle
+    file: ci/tasks/build.yml
+    image: base-image
+    input_mapping:
+      source: gs-yarn-basic-single
+
+- name: gs-yarn-batch-processing-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-yarn-batch-processing
+      trigger: true
+    - get: base-image
+      trigger: true
+      passed: [image]
+  - task: gradle
+    file: ci/tasks/build.yml
+    image: base-image
+    input_mapping:
+      source: gs-yarn-batch-processing
+
+- name: gs-yarn-batch-restart-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-yarn-batch-restart
+      trigger: true
+    - get: base-image
+      trigger: true
+      passed: [image]
+  - task: gradle
+    file: ci/tasks/build.yml
+    image: base-image
+    input_mapping:
+      source: gs-yarn-batch-restart
+
+- name: gs-yarn-testing-gradle
+  plan:
+  - aggregate:
+    - get: ci
+    - get: gs-yarn-testing
+      trigger: true
+    - get: base-image
+      trigger: true
+      passed: [image]
+  - task: gradle
+    file: ci/tasks/build.yml
+    image: base-image
+    input_mapping:
+      source: gs-yarn-testing
+
 - name: gs-messaging-rabbitmq-maven
   plan:
   - aggregate:
@@ -1719,6 +1959,7 @@ groups:
   - neo-image
   - gs-accessing-data-gemfire-maven
   - gs-accessing-data-jpa-maven
+  - gs-accessing-data-mysql-maven
   - gs-accessing-data-rest-maven
   - gs-accessing-facebook-maven
   - gs-accessing-gemfire-data-rest-maven
@@ -1741,6 +1982,7 @@ groups:
   - gs-integration-maven
   - gs-managing-transactions-maven
   - gs-maven-maven
+  - gs-maven-yarn-maven
   - gs-messaging-jms-maven
   - gs-messaging-redis-maven
   - gs-messaging-stomp-websocket-maven
@@ -1750,6 +1992,7 @@ groups:
   - gs-rest-hateoas-maven
   - gs-rest-service-maven
   - gs-rest-service-cors-maven
+  - gs-routing-and-filtering-maven
   - gs-scheduling-tasks-maven
   - gs-securing-web-maven
   - gs-service-registration-and-discovery-maven
@@ -1761,8 +2004,14 @@ groups:
   - gs-testing-web-maven
   - gs-uploading-files-maven
   - gs-validating-form-input-maven
+  - gs-yarn-basic-maven
+  - gs-yarn-basic-single-maven
+  - gs-yarn-batch-processing-maven
+  - gs-yarn-batch-restart-maven
+  - gs-yarn-testing-maven
   - gs-accessing-data-gemfire-gradle
   - gs-accessing-data-jpa-gradle
+  - gs-accessing-data-mysql-gradle
   - gs-accessing-data-rest-gradle
   - gs-accessing-facebook-gradle
   - gs-accessing-gemfire-data-rest-gradle
@@ -1778,6 +2027,7 @@ groups:
   - gs-crud-with-vaadin-gradle
   - gs-device-detection-gradle
   - gs-gradle-gradle
+  - gs-gradle-yarn-gradle
   - gs-handling-form-submission-gradle
   - gs-handling-site-preference-gradle
   - gs-integration-gradle
@@ -1800,6 +2050,11 @@ groups:
   - gs-testing-web-gradle
   - gs-uploading-files-gradle
   - gs-validating-form-input-gradle
+  - gs-yarn-basic-gradle
+  - gs-yarn-basic-single-gradle
+  - gs-yarn-batch-processing-gradle
+  - gs-yarn-batch-restart-gradle
+  - gs-yarn-testing-gradle
   - gs-messaging-rabbitmq-maven
   - gs-messaging-rabbitmq-gradle
   - gs-accessing-data-mongodb-maven
@@ -1820,6 +2075,7 @@ groups:
   jobs:
   - gs-accessing-data-gemfire-maven
   - gs-accessing-data-jpa-maven
+  - gs-accessing-data-mysql-maven
   - gs-accessing-data-rest-maven
   - gs-accessing-facebook-maven
   - gs-accessing-gemfire-data-rest-maven
@@ -1842,6 +2098,7 @@ groups:
   - gs-integration-maven
   - gs-managing-transactions-maven
   - gs-maven-maven
+  - gs-maven-yarn-maven
   - gs-messaging-jms-maven
   - gs-messaging-redis-maven
   - gs-messaging-stomp-websocket-maven
@@ -1851,6 +2108,7 @@ groups:
   - gs-rest-hateoas-maven
   - gs-rest-service-maven
   - gs-rest-service-cors-maven
+  - gs-routing-and-filtering-maven
   - gs-scheduling-tasks-maven
   - gs-securing-web-maven
   - gs-service-registration-and-discovery-maven
@@ -1862,6 +2120,11 @@ groups:
   - gs-testing-web-maven
   - gs-uploading-files-maven
   - gs-validating-form-input-maven
+  - gs-yarn-basic-maven
+  - gs-yarn-basic-single-maven
+  - gs-yarn-batch-processing-maven
+  - gs-yarn-batch-restart-maven
+  - gs-yarn-testing-maven
   - gs-messaging-rabbitmq-maven
   - gs-accessing-data-mongodb-maven
   - gs-accessing-mongodb-data-rest-maven
@@ -1871,6 +2134,7 @@ groups:
   jobs:
   - gs-accessing-data-gemfire-gradle
   - gs-accessing-data-jpa-gradle
+  - gs-accessing-data-mysql-gradle
   - gs-accessing-data-rest-gradle
   - gs-accessing-facebook-gradle
   - gs-accessing-gemfire-data-rest-gradle
@@ -1886,6 +2150,7 @@ groups:
   - gs-crud-with-vaadin-gradle
   - gs-device-detection-gradle
   - gs-gradle-gradle
+  - gs-gradle-yarn-gradle
   - gs-handling-form-submission-gradle
   - gs-handling-site-preference-gradle
   - gs-integration-gradle
@@ -1908,6 +2173,11 @@ groups:
   - gs-testing-web-gradle
   - gs-uploading-files-gradle
   - gs-validating-form-input-gradle
+  - gs-yarn-basic-gradle
+  - gs-yarn-basic-single-gradle
+  - gs-yarn-batch-processing-gradle
+  - gs-yarn-batch-restart-gradle
+  - gs-yarn-testing-gradle
   - gs-messaging-rabbitmq-gradle
   - gs-accessing-data-mongodb-gradle
   - gs-accessing-mongodb-data-rest-gradle

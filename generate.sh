@@ -21,11 +21,6 @@ cat > $output <<EOF
 # fly --target spring set-pipeline --config pipeline.yml --pipeline spring-guides-ci --load-vars-from credentials.yml
 ---
 resources:
-- name: image-source
-  type: git
-  source:
-    uri: https://github.com/spring-guides/gs-rest-service.git
-    paths: [complete/pom.xml, complete/build.gradle]
 - name: ci
   type: git
   source:
@@ -82,13 +77,9 @@ jobs:
   - aggregate:
     - get: ci
       trigger: true
-    - get: image-source
-      trigger: true
   - aggregate:
     - task: setup
       file: ci/image/setup.yml
-      input_mapping:
-        source: image-source
       params:
         PUBLIC_KEY: {{public-key}}
         PRIVATE_KEY: {{private-key}}
@@ -102,12 +93,8 @@ jobs:
   - aggregate:
     - get: ci
       trigger: true
-    - get: image-source
-      trigger: true
   - task: setup
     file: ci/image/setup.yml
-    input_mapping:
-      source: image-source
     params:
       PUBLIC_KEY: {{public-key}}
       PRIVATE_KEY: {{private-key}}
@@ -121,12 +108,8 @@ jobs:
   - aggregate:
     - get: ci
       trigger: true
-    - get: image-source
-      trigger: true
   - task: setup
     file: ci/image/setup.yml
-    input_mapping:
-      source: image-source
     params:
       PUBLIC_KEY: {{public-key}}
       PRIVATE_KEY: {{private-key}}
@@ -141,12 +124,8 @@ jobs:
   - aggregate:
     - get: ci
       trigger: true
-    - get: image-source
-      trigger: true
   - task: setup
     file: ci/image/setup.yml
-    input_mapping:
-      source: image-source
     params:
       PUBLIC_KEY: {{public-key}}
       PRIVATE_KEY: {{private-key}}

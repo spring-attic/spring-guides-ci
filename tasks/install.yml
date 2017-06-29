@@ -2,10 +2,13 @@
 platform: linux
 inputs:
   - name: source
+caches:
+  - path: source/.m2
 run:
   dir: source/complete
   path: ./mvnw
   args:
   - install
+  - -Dmaven.repo.local=../.m2
 params:
   TERM: dumb
