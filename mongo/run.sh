@@ -1,3 +1,3 @@
 #!/bin/sh
 
-service mongodb start
+mongod --fork
