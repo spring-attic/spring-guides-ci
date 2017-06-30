@@ -97,6 +97,8 @@ jobs:
   - aggregate:
     - get: ci
       trigger: true
+    - get: gs-messaging-rabbitmq
+      trigger: true
   - task: setup
     file: ci/image/setup.yml
     input_mapping:
@@ -113,6 +115,8 @@ jobs:
   plan:
   - aggregate:
     - get: ci
+      trigger: true
+    - get: gs-accessing-data-mongodb
       trigger: true
   - task: setup
     file: ci/image/setup.yml
@@ -131,6 +135,8 @@ jobs:
   plan:
   - aggregate:
     - get: ci
+      trigger: true
+    - get: gs-accessing-data-neo4j
       trigger: true
   - task: setup
     file: ci/image/setup.yml
