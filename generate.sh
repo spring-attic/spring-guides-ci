@@ -99,6 +99,8 @@ jobs:
       trigger: true
   - task: setup
     file: ci/image/setup.yml
+    input_mapping:
+      source: gs-messaging-rabbitmq
     params:
       PUBLIC_KEY: {{public-key}}
       PRIVATE_KEY: {{private-key}}
@@ -114,6 +116,8 @@ jobs:
       trigger: true
   - task: setup
     file: ci/image/setup.yml
+    input_mapping:
+      source: gs-accessing-data-mongodb
     params:
       PUBLIC_KEY: {{public-key}}
       PRIVATE_KEY: {{private-key}}
@@ -130,6 +134,8 @@ jobs:
       trigger: true
   - task: setup
     file: ci/image/setup.yml
+    input_mapping:
+      source: gs-accessing-data-neo4j
     params:
       PUBLIC_KEY: {{public-key}}
       PRIVATE_KEY: {{private-key}}
