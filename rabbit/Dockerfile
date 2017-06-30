@@ -1,9 +1,7 @@
-FROM rabbitmq:management
+FROM rabbitmq:management-alpine
 
 ENV LANG C.UTF-8
 
-RUN echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list
-RUN apt-get update
-RUN apt-get install -y -t jessie-backports openjdk-8-jdk ca-certificates-java
+RUN apk add --no-cache openjdk8
 
 CMD ["/bin/sh"]
