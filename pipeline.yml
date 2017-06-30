@@ -1,33 +1,33 @@
-# fly --target spring login --concourse-url https://ci.spring.io
-# fly --target spring set-pipeline --config pipeline.yml --pipeline spring-guides-ci --load-vars-from credentials.yml
+# fly --target spring-guides login --concourse-url https://ci.spring.io --team-name spring-guides
+# fly --target spring-guides set-pipeline --config pipeline.yml --pipeline spring-guides-ci --load-vars-from credentials.yml
 ---
 resources:
 - name: ci
   type: git
   source:
     uri: https://github.com/spring-guides/spring-guides-ci.git
-- name: base-image
+- name: spring-ci-base
   type: docker-image
   source:
     email: {{docker-hub-email}}
     username: {{docker-hub-username}}
     password: {{docker-hub-password}}
     repository: springio/spring-ci-base
-- name: rabbit-base-image
+- name: spring-rabbit-base
   type: docker-image
   source:
     email: {{docker-hub-email}}
     username: {{docker-hub-username}}
     password: {{docker-hub-password}}
     repository: springio/spring-rabbit-base
-- name: mongo-base-image
+- name: spring-mongo-base
   type: docker-image
   source:
     email: {{docker-hub-email}}
     username: {{docker-hub-username}}
     password: {{docker-hub-password}}
     repository: springio/spring-mongo-base
-- name: neo-base-image
+- name: spring-neo-base
   type: docker-image
   source:
     email: {{docker-hub-email}}
@@ -272,7 +272,7 @@ resources:
     uri: https://github.com/spring-guides/gs-yarn-testing.git
 
 jobs:
-- name: image
+- name: base-image
   public: true
   serial: true
   plan:
@@ -285,7 +285,7 @@ jobs:
       params:
         PUBLIC_KEY: {{public-key}}
         PRIVATE_KEY: {{private-key}}
-  - put: base-image
+  - put: spring-ci-base
     params:
       build: build/image
 - name: rabbit-image
@@ -300,7 +300,7 @@ jobs:
     params:
       PUBLIC_KEY: {{public-key}}
       PRIVATE_KEY: {{private-key}}
-  - put: rabbit-base-image
+  - put: spring-rabbit-base
     params:
       build: ci/rabbit
 - name: mongo-image
@@ -315,7 +315,7 @@ jobs:
     params:
       PUBLIC_KEY: {{public-key}}
       PRIVATE_KEY: {{private-key}}
-  - put: mongo-base-image
+  - put: spring-mongo-base
     params:
       build: ci/mongo
 
@@ -331,7 +331,7 @@ jobs:
     params:
       PUBLIC_KEY: {{public-key}}
       PRIVATE_KEY: {{private-key}}
-  - put: neo-base-image
+  - put: spring-neo-base
     params:
       build: ci/neo
 
@@ -341,12 +341,12 @@ jobs:
     - get: ci
     - get: gs-accessing-data-gemfire
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-accessing-data-gemfire
 
@@ -356,12 +356,12 @@ jobs:
     - get: ci
     - get: gs-accessing-data-jpa
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-accessing-data-jpa
 
@@ -371,12 +371,12 @@ jobs:
     - get: ci
     - get: gs-accessing-data-mysql
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-accessing-data-mysql
 
@@ -386,12 +386,12 @@ jobs:
     - get: ci
     - get: gs-accessing-data-rest
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-accessing-data-rest
 
@@ -401,12 +401,12 @@ jobs:
     - get: ci
     - get: gs-accessing-facebook
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-accessing-facebook
 
@@ -416,12 +416,12 @@ jobs:
     - get: ci
     - get: gs-accessing-gemfire-data-rest
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-accessing-gemfire-data-rest
 
@@ -431,12 +431,12 @@ jobs:
     - get: ci
     - get: gs-accessing-twitter
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-accessing-twitter
 
@@ -446,12 +446,12 @@ jobs:
     - get: ci
     - get: gs-actuator-service
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-actuator-service
 
@@ -461,12 +461,12 @@ jobs:
     - get: ci
     - get: gs-async-method
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-async-method
 
@@ -476,12 +476,12 @@ jobs:
     - get: ci
     - get: gs-authenticating-ldap
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-authenticating-ldap
 
@@ -491,12 +491,12 @@ jobs:
     - get: ci
     - get: gs-batch-processing
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-batch-processing
 
@@ -506,12 +506,12 @@ jobs:
     - get: ci
     - get: gs-caching
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-caching
 
@@ -521,12 +521,12 @@ jobs:
     - get: ci
     - get: gs-caching-gemfire
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-caching-gemfire
 
@@ -536,12 +536,12 @@ jobs:
     - get: ci
     - get: gs-centralized-configuration
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-centralized-configuration
 
@@ -551,12 +551,12 @@ jobs:
     - get: ci
     - get: gs-circuit-breaker
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-circuit-breaker
 
@@ -566,12 +566,12 @@ jobs:
     - get: ci
     - get: gs-client-side-load-balancing
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-client-side-load-balancing
 
@@ -581,12 +581,12 @@ jobs:
     - get: ci
     - get: gs-consuming-rest
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-consuming-rest
 
@@ -596,12 +596,12 @@ jobs:
     - get: ci
     - get: gs-consuming-web-service
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-consuming-web-service
 
@@ -611,12 +611,12 @@ jobs:
     - get: ci
     - get: gs-crud-with-vaadin
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-crud-with-vaadin
 
@@ -626,12 +626,12 @@ jobs:
     - get: ci
     - get: gs-device-detection
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-device-detection
 
@@ -641,12 +641,12 @@ jobs:
     - get: ci
     - get: gs-handling-form-submission
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-handling-form-submission
 
@@ -656,12 +656,12 @@ jobs:
     - get: ci
     - get: gs-handling-site-preference
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-handling-site-preference
 
@@ -671,12 +671,12 @@ jobs:
     - get: ci
     - get: gs-integration
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-integration
 
@@ -686,12 +686,12 @@ jobs:
     - get: ci
     - get: gs-managing-transactions
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-managing-transactions
 
@@ -701,12 +701,12 @@ jobs:
     - get: ci
     - get: gs-maven
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-maven
 
@@ -716,12 +716,12 @@ jobs:
     - get: ci
     - get: gs-maven-yarn
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-maven-yarn
 
@@ -731,12 +731,12 @@ jobs:
     - get: ci
     - get: gs-messaging-jms
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-messaging-jms
 
@@ -746,12 +746,12 @@ jobs:
     - get: ci
     - get: gs-messaging-redis
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-messaging-redis
 
@@ -761,12 +761,12 @@ jobs:
     - get: ci
     - get: gs-messaging-stomp-websocket
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-messaging-stomp-websocket
 
@@ -776,12 +776,12 @@ jobs:
     - get: ci
     - get: gs-multi-module
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-multi-module
 
@@ -791,12 +791,12 @@ jobs:
     - get: ci
     - get: gs-producing-web-service
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-producing-web-service
 
@@ -806,12 +806,12 @@ jobs:
     - get: ci
     - get: gs-relational-data-access
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-relational-data-access
 
@@ -821,12 +821,12 @@ jobs:
     - get: ci
     - get: gs-rest-hateoas
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-rest-hateoas
 
@@ -836,12 +836,12 @@ jobs:
     - get: ci
     - get: gs-rest-service
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-rest-service
 
@@ -851,12 +851,12 @@ jobs:
     - get: ci
     - get: gs-rest-service-cors
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-rest-service-cors
 
@@ -866,12 +866,12 @@ jobs:
     - get: ci
     - get: gs-routing-and-filtering
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-routing-and-filtering
 
@@ -881,12 +881,12 @@ jobs:
     - get: ci
     - get: gs-scheduling-tasks
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-scheduling-tasks
 
@@ -896,12 +896,12 @@ jobs:
     - get: ci
     - get: gs-securing-web
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-securing-web
 
@@ -911,12 +911,12 @@ jobs:
     - get: ci
     - get: gs-service-registration-and-discovery
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-service-registration-and-discovery
 
@@ -926,12 +926,12 @@ jobs:
     - get: ci
     - get: gs-serving-mobile-web-content
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-serving-mobile-web-content
 
@@ -941,12 +941,12 @@ jobs:
     - get: ci
     - get: gs-serving-web-content
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-serving-web-content
 
@@ -956,12 +956,12 @@ jobs:
     - get: ci
     - get: gs-spring-boot
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-spring-boot
 
@@ -971,12 +971,12 @@ jobs:
     - get: ci
     - get: gs-spring-boot-docker
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-spring-boot-docker
 
@@ -986,12 +986,12 @@ jobs:
     - get: ci
     - get: gs-testing-restdocs
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-testing-restdocs
 
@@ -1001,12 +1001,12 @@ jobs:
     - get: ci
     - get: gs-testing-web
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-testing-web
 
@@ -1016,12 +1016,12 @@ jobs:
     - get: ci
     - get: gs-uploading-files
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-uploading-files
 
@@ -1031,12 +1031,12 @@ jobs:
     - get: ci
     - get: gs-validating-form-input
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-validating-form-input
 
@@ -1046,12 +1046,12 @@ jobs:
     - get: ci
     - get: gs-yarn-basic
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-yarn-basic
 
@@ -1061,12 +1061,12 @@ jobs:
     - get: ci
     - get: gs-yarn-basic-single
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-yarn-basic-single
 
@@ -1076,12 +1076,12 @@ jobs:
     - get: ci
     - get: gs-yarn-batch-processing
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-yarn-batch-processing
 
@@ -1091,12 +1091,12 @@ jobs:
     - get: ci
     - get: gs-yarn-batch-restart
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-yarn-batch-restart
 
@@ -1106,12 +1106,12 @@ jobs:
     - get: ci
     - get: gs-yarn-testing
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-yarn-testing
 
@@ -1121,12 +1121,12 @@ jobs:
     - get: ci
     - get: gs-accessing-data-gemfire
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-accessing-data-gemfire
 
@@ -1136,12 +1136,12 @@ jobs:
     - get: ci
     - get: gs-accessing-data-jpa
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-accessing-data-jpa
 
@@ -1151,12 +1151,12 @@ jobs:
     - get: ci
     - get: gs-accessing-data-mysql
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-accessing-data-mysql
 
@@ -1166,12 +1166,12 @@ jobs:
     - get: ci
     - get: gs-accessing-data-rest
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-accessing-data-rest
 
@@ -1181,12 +1181,12 @@ jobs:
     - get: ci
     - get: gs-accessing-facebook
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-accessing-facebook
 
@@ -1196,12 +1196,12 @@ jobs:
     - get: ci
     - get: gs-accessing-gemfire-data-rest
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-accessing-gemfire-data-rest
 
@@ -1211,12 +1211,12 @@ jobs:
     - get: ci
     - get: gs-accessing-twitter
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-accessing-twitter
 
@@ -1226,12 +1226,12 @@ jobs:
     - get: ci
     - get: gs-actuator-service
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-actuator-service
 
@@ -1241,12 +1241,12 @@ jobs:
     - get: ci
     - get: gs-async-method
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-async-method
 
@@ -1256,12 +1256,12 @@ jobs:
     - get: ci
     - get: gs-authenticating-ldap
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-authenticating-ldap
 
@@ -1271,12 +1271,12 @@ jobs:
     - get: ci
     - get: gs-batch-processing
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-batch-processing
 
@@ -1286,12 +1286,12 @@ jobs:
     - get: ci
     - get: gs-caching
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-caching
 
@@ -1301,12 +1301,12 @@ jobs:
     - get: ci
     - get: gs-caching-gemfire
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-caching-gemfire
 
@@ -1316,12 +1316,12 @@ jobs:
     - get: ci
     - get: gs-consuming-rest
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-consuming-rest
 
@@ -1331,12 +1331,12 @@ jobs:
     - get: ci
     - get: gs-consuming-web-service
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-consuming-web-service
 
@@ -1346,12 +1346,12 @@ jobs:
     - get: ci
     - get: gs-crud-with-vaadin
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-crud-with-vaadin
 
@@ -1361,12 +1361,12 @@ jobs:
     - get: ci
     - get: gs-device-detection
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-device-detection
 
@@ -1376,12 +1376,12 @@ jobs:
     - get: ci
     - get: gs-gradle
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-gradle
 
@@ -1391,12 +1391,12 @@ jobs:
     - get: ci
     - get: gs-gradle-yarn
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-gradle-yarn
 
@@ -1406,12 +1406,12 @@ jobs:
     - get: ci
     - get: gs-handling-form-submission
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-handling-form-submission
 
@@ -1421,12 +1421,12 @@ jobs:
     - get: ci
     - get: gs-handling-site-preference
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-handling-site-preference
 
@@ -1436,12 +1436,12 @@ jobs:
     - get: ci
     - get: gs-integration
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-integration
 
@@ -1451,12 +1451,12 @@ jobs:
     - get: ci
     - get: gs-managing-transactions
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-managing-transactions
 
@@ -1466,12 +1466,12 @@ jobs:
     - get: ci
     - get: gs-messaging-jms
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-messaging-jms
 
@@ -1481,12 +1481,12 @@ jobs:
     - get: ci
     - get: gs-messaging-redis
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-messaging-redis
 
@@ -1496,12 +1496,12 @@ jobs:
     - get: ci
     - get: gs-messaging-stomp-websocket
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-messaging-stomp-websocket
 
@@ -1511,12 +1511,12 @@ jobs:
     - get: ci
     - get: gs-producing-web-service
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-producing-web-service
 
@@ -1526,12 +1526,12 @@ jobs:
     - get: ci
     - get: gs-relational-data-access
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-relational-data-access
 
@@ -1541,12 +1541,12 @@ jobs:
     - get: ci
     - get: gs-rest-hateoas
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-rest-hateoas
 
@@ -1556,12 +1556,12 @@ jobs:
     - get: ci
     - get: gs-rest-service
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-rest-service
 
@@ -1571,12 +1571,12 @@ jobs:
     - get: ci
     - get: gs-rest-service-cors
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-rest-service-cors
 
@@ -1586,12 +1586,12 @@ jobs:
     - get: ci
     - get: gs-scheduling-tasks
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-scheduling-tasks
 
@@ -1601,12 +1601,12 @@ jobs:
     - get: ci
     - get: gs-securing-web
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-securing-web
 
@@ -1616,12 +1616,12 @@ jobs:
     - get: ci
     - get: gs-serving-mobile-web-content
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-serving-mobile-web-content
 
@@ -1631,12 +1631,12 @@ jobs:
     - get: ci
     - get: gs-serving-web-content
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-serving-web-content
 
@@ -1646,12 +1646,12 @@ jobs:
     - get: ci
     - get: gs-spring-boot
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-spring-boot
 
@@ -1661,12 +1661,12 @@ jobs:
     - get: ci
     - get: gs-spring-boot-docker
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-spring-boot-docker
 
@@ -1676,12 +1676,12 @@ jobs:
     - get: ci
     - get: gs-testing-restdocs
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-testing-restdocs
 
@@ -1691,12 +1691,12 @@ jobs:
     - get: ci
     - get: gs-testing-web
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-testing-web
 
@@ -1706,12 +1706,12 @@ jobs:
     - get: ci
     - get: gs-uploading-files
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-uploading-files
 
@@ -1721,12 +1721,12 @@ jobs:
     - get: ci
     - get: gs-validating-form-input
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-validating-form-input
 
@@ -1736,12 +1736,12 @@ jobs:
     - get: ci
     - get: gs-yarn-basic
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-yarn-basic
 
@@ -1751,12 +1751,12 @@ jobs:
     - get: ci
     - get: gs-yarn-basic-single
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-yarn-basic-single
 
@@ -1766,12 +1766,12 @@ jobs:
     - get: ci
     - get: gs-yarn-batch-processing
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-yarn-batch-processing
 
@@ -1781,12 +1781,12 @@ jobs:
     - get: ci
     - get: gs-yarn-batch-restart
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-yarn-batch-restart
 
@@ -1796,12 +1796,12 @@ jobs:
     - get: ci
     - get: gs-yarn-testing
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: gs-yarn-testing
 
@@ -1811,12 +1811,12 @@ jobs:
     - get: ci
     - get: gs-messaging-rabbitmq
       trigger: true
-    - get: rabbit-base-image
+    - get: spring-rabbit-base
       trigger: true
       passed: [rabbit-image]
   - task: maven
     file: ci/rabbit/install.yml
-    image: rabbit-base-image
+    image: spring-rabbit-base
     input_mapping:
       source: gs-messaging-rabbitmq
 - name: gs-messaging-rabbitmq-gradle
@@ -1825,12 +1825,12 @@ jobs:
     - get: ci
     - get: gs-messaging-rabbitmq
       trigger: true
-    - get: rabbit-base-image
+    - get: spring-rabbit-base
       trigger: true
       passed: [rabbit-image]
   - task: gradle
     file: ci/rabbit/build.yml
-    image: rabbit-base-image
+    image: spring-rabbit-base
     input_mapping:
       source: gs-messaging-rabbitmq
 
@@ -1840,12 +1840,12 @@ jobs:
     - get: ci
     - get: gs-accessing-data-mongodb
       trigger: true
-    - get: mongo-base-image
+    - get: spring-mongo-base
       trigger: true
       passed: [mongo-image]
   - task: maven
     file: ci/mongo/install.yml
-    image: mongo-base-image
+    image: spring-mongo-base
     input_mapping:
       source: gs-accessing-data-mongodb
 - name: gs-accessing-data-mongodb-gradle
@@ -1854,12 +1854,12 @@ jobs:
     - get: ci
     - get: gs-accessing-data-mongodb
       trigger: true
-    - get: mongo-base-image
+    - get: spring-mongo-base
       trigger: true
       passed: [mongo-image]
   - task: gradle
     file: ci/mongo/build.yml
-    image: mongo-base-image
+    image: spring-mongo-base
     input_mapping:
       source: gs-accessing-data-mongodb
 
@@ -1869,12 +1869,12 @@ jobs:
     - get: ci
     - get: gs-accessing-mongodb-data-rest
       trigger: true
-    - get: mongo-base-image
+    - get: spring-mongo-base
       trigger: true
       passed: [mongo-image]
   - task: maven
     file: ci/mongo/install.yml
-    image: mongo-base-image
+    image: spring-mongo-base
     input_mapping:
       source: gs-accessing-mongodb-data-rest
 - name: gs-accessing-mongodb-data-rest-gradle
@@ -1883,12 +1883,12 @@ jobs:
     - get: ci
     - get: gs-accessing-mongodb-data-rest
       trigger: true
-    - get: mongo-base-image
+    - get: spring-mongo-base
       trigger: true
       passed: [mongo-image]
   - task: gradle
     file: ci/mongo/build.yml
-    image: mongo-base-image
+    image: spring-mongo-base
     input_mapping:
       source: gs-accessing-mongodb-data-rest
 
@@ -1898,12 +1898,12 @@ jobs:
     - get: ci
     - get: gs-accessing-data-neo4j
       trigger: true
-    - get: neo-base-image
+    - get: spring-neo-base
       trigger: true
       passed: [neo-image]
   - task: maven
     file: ci/neo/install.yml
-    image: neo-base-image
+    image: spring-neo-base
     input_mapping:
       source: gs-accessing-data-neo4j
 - name: gs-accessing-data-neo4j-gradle
@@ -1912,12 +1912,12 @@ jobs:
     - get: ci
     - get: gs-accessing-data-neo4j
       trigger: true
-    - get: neo-base-image
+    - get: spring-neo-base
       trigger: true
       passed: [neo-image]
   - task: gradle
     file: ci/neo/build.yml
-    image: neo-base-image
+    image: spring-neo-base
     input_mapping:
       source: gs-accessing-data-neo4j
 
@@ -1927,12 +1927,12 @@ jobs:
     - get: ci
     - get: gs-accessing-neo4j-data-rest
       trigger: true
-    - get: neo-base-image
+    - get: spring-neo-base
       trigger: true
       passed: [neo-image]
   - task: maven
     file: ci/neo/install.yml
-    image: neo-base-image
+    image: spring-neo-base
     input_mapping:
       source: gs-accessing-neo4j-data-rest
 - name: gs-accessing-neo4j-data-rest-gradle
@@ -1941,19 +1941,19 @@ jobs:
     - get: ci
     - get: gs-accessing-neo4j-data-rest
       trigger: true
-    - get: neo-base-image
+    - get: spring-neo-base
       trigger: true
       passed: [neo-image]
   - task: gradle
     file: ci/neo/build.yml
-    image: neo-base-image
+    image: spring-neo-base
     input_mapping:
       source: gs-accessing-neo4j-data-rest
 
 groups:
 - name: all
   jobs:
-  - image
+  - base-image
   - rabbit-image
   - mongo-image
   - neo-image
@@ -2067,7 +2067,7 @@ groups:
   - gs-accessing-neo4j-data-rest-gradle
 - name: images
   jobs:
-  - image
+  - base-image
   - rabbit-image
   - mongo-image
   - neo-image

@@ -17,36 +17,36 @@ function project() {
 }
 
 cat > $output <<EOF
-# fly --target spring login --concourse-url https://ci.spring.io
-# fly --target spring set-pipeline --config pipeline.yml --pipeline spring-guides-ci --load-vars-from credentials.yml
+# fly --target spring-guides login --concourse-url https://ci.spring.io --team-name spring-guides
+# fly --target spring-guides set-pipeline --config pipeline.yml --pipeline spring-guides-ci --load-vars-from credentials.yml
 ---
 resources:
 - name: ci
   type: git
   source:
     uri: https://github.com/spring-guides/spring-guides-ci.git
-- name: base-image
+- name: spring-ci-base
   type: docker-image
   source:
     email: {{docker-hub-email}}
     username: {{docker-hub-username}}
     password: {{docker-hub-password}}
     repository: springio/spring-ci-base
-- name: rabbit-base-image
+- name: spring-rabbit-base
   type: docker-image
   source:
     email: {{docker-hub-email}}
     username: {{docker-hub-username}}
     password: {{docker-hub-password}}
     repository: springio/spring-rabbit-base
-- name: mongo-base-image
+- name: spring-mongo-base
   type: docker-image
   source:
     email: {{docker-hub-email}}
     username: {{docker-hub-username}}
     password: {{docker-hub-password}}
     repository: springio/spring-mongo-base
-- name: neo-base-image
+- name: spring-neo-base
   type: docker-image
   source:
     email: {{docker-hub-email}}
@@ -70,7 +70,7 @@ done
 cat >> $output <<EOF
 
 jobs:
-- name: image
+- name: base-image
   public: true
   serial: true
   plan:
@@ -83,7 +83,7 @@ jobs:
       params:
         PUBLIC_KEY: {{public-key}}
         PRIVATE_KEY: {{private-key}}
-  - put: base-image
+  - put: spring-ci-base
     params:
       build: build/image
 - name: rabbit-image
@@ -98,7 +98,7 @@ jobs:
     params:
       PUBLIC_KEY: {{public-key}}
       PRIVATE_KEY: {{private-key}}
-  - put: rabbit-base-image
+  - put: spring-rabbit-base
     params:
       build: ci/rabbit
 - name: mongo-image
@@ -113,7 +113,7 @@ jobs:
     params:
       PUBLIC_KEY: {{public-key}}
       PRIVATE_KEY: {{private-key}}
-  - put: mongo-base-image
+  - put: spring-mongo-base
     params:
       build: ci/mongo
 
@@ -129,7 +129,7 @@ jobs:
     params:
       PUBLIC_KEY: {{public-key}}
       PRIVATE_KEY: {{private-key}}
-  - put: neo-base-image
+  - put: spring-neo-base
     params:
       build: ci/neo
 
@@ -161,12 +161,12 @@ for project in "${mavens[@]}"; do
     - get: ci
     - get: $project
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: maven
     file: ci/tasks/install.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: $project
 
@@ -180,12 +180,12 @@ for project in "${gradles[@]}"; do
     - get: ci
     - get: $project
       trigger: true
-    - get: base-image
+    - get: spring-ci-base
       trigger: true
-      passed: [image]
+      passed: [base-image]
   - task: gradle
     file: ci/tasks/build.yml
-    image: base-image
+    image: spring-ci-base
     input_mapping:
       source: $project
 
@@ -199,12 +199,12 @@ for project in "${rabbits[@]}"; do
     - get: ci
     - get: $project
       trigger: true
-    - get: rabbit-base-image
+    - get: spring-rabbit-base
       trigger: true
       passed: [rabbit-image]
   - task: maven
     file: ci/rabbit/install.yml
-    image: rabbit-base-image
+    image: spring-rabbit-base
     input_mapping:
       source: $project
 - name: ${project}-gradle
@@ -213,12 +213,12 @@ for project in "${rabbits[@]}"; do
     - get: ci
     - get: $project
       trigger: true
-    - get: rabbit-base-image
+    - get: spring-rabbit-base
       trigger: true
       passed: [rabbit-image]
   - task: gradle
     file: ci/rabbit/build.yml
-    image: rabbit-base-image
+    image: spring-rabbit-base
     input_mapping:
       source: $project
 
@@ -232,12 +232,12 @@ for project in "${mongos[@]}"; do
     - get: ci
     - get: $project
       trigger: true
-    - get: mongo-base-image
+    - get: spring-mongo-base
       trigger: true
       passed: [mongo-image]
   - task: maven
     file: ci/mongo/install.yml
-    image: mongo-base-image
+    image: spring-mongo-base
     input_mapping:
       source: $project
 - name: ${project}-gradle
@@ -246,12 +246,12 @@ for project in "${mongos[@]}"; do
     - get: ci
     - get: $project
       trigger: true
-    - get: mongo-base-image
+    - get: spring-mongo-base
       trigger: true
       passed: [mongo-image]
   - task: gradle
     file: ci/mongo/build.yml
-    image: mongo-base-image
+    image: spring-mongo-base
     input_mapping:
       source: $project
 
@@ -265,12 +265,12 @@ for project in "${neos[@]}"; do
     - get: ci
     - get: $project
       trigger: true
-    - get: neo-base-image
+    - get: spring-neo-base
       trigger: true
       passed: [neo-image]
   - task: maven
     file: ci/neo/install.yml
-    image: neo-base-image
+    image: spring-neo-base
     input_mapping:
       source: $project
 - name: ${project}-gradle
@@ -279,12 +279,12 @@ for project in "${neos[@]}"; do
     - get: ci
     - get: $project
       trigger: true
-    - get: neo-base-image
+    - get: spring-neo-base
       trigger: true
       passed: [neo-image]
   - task: gradle
     file: ci/neo/build.yml
-    image: neo-base-image
+    image: spring-neo-base
     input_mapping:
       source: $project
 
@@ -295,7 +295,7 @@ cat >> $output <<EOF
 groups:
 - name: all
   jobs:
-  - image
+  - base-image
   - rabbit-image
   - mongo-image
   - neo-image
@@ -321,7 +321,7 @@ done
 cat >> $output <<EOF
 - name: images
   jobs:
-  - image
+  - base-image
   - rabbit-image
   - mongo-image
   - neo-image
