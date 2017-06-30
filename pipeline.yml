@@ -279,9 +279,13 @@ jobs:
   - aggregate:
     - get: ci
       trigger: true
+    - get: gs-rest-service
+      trigger: true
   - aggregate:
     - task: setup
       file: ci/image/setup.yml
+      input_mapping:
+        source: gs-rest-service
       params:
         PUBLIC_KEY: {{public-key}}
         PRIVATE_KEY: {{private-key}}
