@@ -1,3 +1,3 @@
 #!/bin/sh
 
-service rabbitmq-server start
+rabbitmq-server -detached
