@@ -6,4 +6,6 @@ ENV LANG C.UTF-8
 
 RUN apk add --no-cache bash mongodb
 
+EXPOSE 27017
+
 CMD ["mongod"]

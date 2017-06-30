@@ -1,3 +1,3 @@
 #!/bin/sh
 
-mongod --fork
+mongod --fork --syslog
