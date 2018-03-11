@@ -84,9 +84,6 @@ jobs:
       file: ci/image/setup.yml
       input_mapping:
         source: gs-rest-service
-      params:
-        PUBLIC_KEY: {{public-key}}
-        PRIVATE_KEY: {{private-key}}
   - put: spring-ci-base
     params:
       build: build/image
@@ -103,9 +100,6 @@ jobs:
     file: ci/image/setup.yml
     input_mapping:
       source: gs-messaging-rabbitmq
-    params:
-      PUBLIC_KEY: {{public-key}}
-      PRIVATE_KEY: {{private-key}}
   - put: spring-rabbit-base
     params:
       build: ci/rabbit
@@ -122,9 +116,6 @@ jobs:
     file: ci/image/setup.yml
     input_mapping:
       source: gs-accessing-data-mongodb
-    params:
-      PUBLIC_KEY: {{public-key}}
-      PRIVATE_KEY: {{private-key}}
   - put: spring-mongo-base
     params:
       build: ci/mongo
@@ -142,9 +133,6 @@ jobs:
     file: ci/image/setup.yml
     input_mapping:
       source: gs-accessing-data-neo4j
-    params:
-      PUBLIC_KEY: {{public-key}}
-      PRIVATE_KEY: {{private-key}}
   - put: spring-neo-base
     params:
       build: ci/neo
