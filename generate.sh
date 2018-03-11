@@ -86,7 +86,7 @@ jobs:
         source: gs-rest-service
   - put: spring-ci-base
     params:
-      build: build/image
+      build: ci/image
 - name: rabbit-image
   public: true
   serial: true
