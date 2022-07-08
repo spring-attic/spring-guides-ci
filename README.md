@@ -1,3 +1,6 @@
+# This repository is no longer actively maintained by VMware, Inc.
+
+
 This repository contains common artifacts used to build Spring guides.
 
 The full pipeline is generated. Clone the repository, and all the
